@@ -1,4 +1,4 @@
-package com.uniquindio.android.electiva.campusuq;
+package com.uniquindio.android.electiva.campusuq.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.uniquindio.android.electiva.campusuq.R;
 
 public class AnimationActivity extends AppCompatActivity {
 
