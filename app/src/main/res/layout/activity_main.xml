@@ -12,7 +12,7 @@
 
     <!-->
     <fragment
-        android:name="com.uniquindio.android.electiva.campusuq.util.NoticeFragment"
+        android:name="com.uniquindio.android.electiva.campusuq.fragments.NoticeFragment"
         android:id="@+id/notice_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
