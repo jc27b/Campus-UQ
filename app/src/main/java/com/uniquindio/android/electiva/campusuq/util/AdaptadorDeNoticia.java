@@ -2,7 +2,6 @@ package com.uniquindio.android.electiva.campusuq.util;
 
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,6 @@ public class AdaptadorDeNoticia extends RecyclerView.Adapter<AdaptadorDeNoticia.
 
         @Override
         public void onClick(View v) {
-            Log.d("TAG", "Element " + getAdapterPosition() + " clicked." + txtTitulo.getText());
             listener.onClickPosition(getAdapterPosition());
         }
     }

@@ -7,4 +7,9 @@
     <string name="texto_detalle_de_noticia">Detalle de la noticia</string>
     <string name="compartir_facebook">Facebook</string>
     <string name="compartir_twitter">Twitter</string>
+
+    <string name="iniciar_sesion">Iniciar Sesión</string>
+    <string name="ir_a_pagina_universidad">Ir a Página de la Universidad</string>
+    <string name="cambiar_idioma">Cambiar Idioma</string>
+
 </resources>

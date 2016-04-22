@@ -1,23 +1,29 @@
 package com.uniquindio.android.electiva.campusuq.activity;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeFragment;
-import com.uniquindio.android.electiva.campusuq.vo.Noticia;
-
-import java.util.ArrayList;
+import com.uniquindio.android.electiva.campusuq.util.AdaptadorDePagerFragment;
 
 public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener {
 
-    private ArrayList<Noticia> noticias;
     private int posicion;
 
     @Override
@@ -25,112 +31,214 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        if (findViewById(R.id.fragment_container) != null) {
+        AnimationActivity.fa.finish();
+        posicion = 0;
 
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        AdaptadorDePagerFragment adapter = new AdaptadorDePagerFragment(getSupportFragmentManager(), getResources().getConfiguration().orientation);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
-            AnimationActivity.fa.finish();
+            @Override
+            public void onPageSelected(int position) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    if (position == 0) {
+                        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+                        AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
+                        Fragment fragment = adapter.getRegisteredFragment(0);
+                        changeLayoutConfiguration(fragment, 50, 50);
 
-            posicion = 0;
-
-            noticias = new ArrayList<Noticia>();
-
-            noticias.add(new Noticia("Noticia 1"));
-            noticias.add(new Noticia("Noticia 2"));
-            noticias.add(new Noticia("Noticia 3"));
-
-            // Create a new Fragment to be placed in the activity layout
-            NoticeFragment noticeFragment = new NoticeFragment();
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            noticeFragment.setArguments(getIntent().getExtras());
-            noticeFragment.setNoticias(noticias);
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.fragment_container, noticeFragment, "noticeFragment");
-            fragmentTransaction.commit();
-
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                NoticeDetailFragment noticeDetailFragment = new NoticeDetailFragment();
-                fragmentTransaction.add(R.id.fragment_container, noticeDetailFragment, "noticeDetailFragment");
-                fragmentTransaction.commit();
-                fragmentManager.executePendingTransactions();
-                noticeDetailFragment.mostrarNoticia(noticias.get(posicion));
+                    }
+                }
             }
 
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-        }
+            }
+        });
+
+        TabLayout tabLayout = (TabLayout) findActionBar(this).findViewById(R.id.tab_layout);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setupWithViewPager(viewPager);
+
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        NoticeFragment noticeFragment = (NoticeFragment) getSupportFragmentManager().findFragmentByTag("noticeFragment");
         NoticeDetailFragment noticeDetailFragment = (NoticeDetailFragment) getSupportFragmentManager().findFragmentByTag("noticeDetailFragment");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            boolean esFragmento = noticeDetailFragment != null;
-            if (!esFragmento) {
-                noticeDetailFragment = new NoticeDetailFragment();
-                noticeDetailFragment.setArguments(getIntent().getExtras());
+
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
+            if (viewPager.getCurrentItem() == 0) {
+                Fragment fragment = adapter.getRegisteredFragment(0);
+                changeLayoutConfiguration(fragment, 50, 50);
+
             }
-            fragmentTransaction.add(R.id.fragment_container, noticeDetailFragment, "noticeDetailFragment");
+
+            fragmentTransaction.show(noticeDetailFragment);
             fragmentTransaction.commit();
             fragmentManager.executePendingTransactions();
-            noticeDetailFragment.mostrarNoticia(noticias.get(posicion));
+            noticeDetailFragment.mostrarNoticia(noticeFragment.getNoticias().get(posicion));
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            fragmentTransaction.remove(noticeDetailFragment);
+
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
+            if (viewPager.getCurrentItem() == 0) {
+                Fragment fragment = adapter.getRegisteredFragment(0);
+                changeLayoutConfiguration(fragment, 100, 0);
+
+            }
+
+            fragmentTransaction.hide(noticeDetailFragment);
             fragmentTransaction.commit();
         }
+
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
+    public void onBackPressed() {
+        super.onBackPressed();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
+            if (viewPager.getCurrentItem() == 0) {
+                Fragment fragment = adapter.getRegisteredFragment(0);
+                changeLayoutConfiguration(fragment, 100, 0);
+
+            }
+
+        }
+
     }
 
     @Override
     public void onNoticiaSeleccionada(int position) {
         posicion = position;
 
+        NoticeFragment noticeFragment = (NoticeFragment) getSupportFragmentManager().findFragmentByTag("noticeFragment");
         NoticeDetailFragment noticeDetailFragment = (NoticeDetailFragment) getSupportFragmentManager().findFragmentByTag("noticeDetailFragment");
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            boolean esFragmento = noticeDetailFragment != null;
-            if (!esFragmento) {
-                noticeDetailFragment = new NoticeDetailFragment();
-                noticeDetailFragment.setArguments(getIntent().getExtras());
-            }
+
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
+            Fragment fragment = adapter.getRegisteredFragment(0);
+            changeLayoutConfiguration(fragment, 0, 100);
+
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, noticeDetailFragment, "noticeDetailFragment");
-            fragmentTransaction.addToBackStack("noticeDetailFragment");
+            fragmentTransaction.hide(noticeFragment);
+            fragmentTransaction.show(noticeDetailFragment);
+            fragmentTransaction.addToBackStack("mostrarNoticeDetailFragment");
             fragmentTransaction.commit();
             fragmentManager.executePendingTransactions();
+
         }
 
-        noticeDetailFragment.mostrarNoticia(noticias.get(position));
+        noticeDetailFragment.mostrarNoticia(noticeFragment.getNoticias().get(position));
 
     }
 
+    public static ViewGroup findActionBar(Activity activity) {
+        int id = activity.getResources().getIdentifier("action_bar", "id", "android");
+        ViewGroup actionBar = null;
+        if (id != 0) {
+            actionBar = (ViewGroup) activity.findViewById(id);
+        }
+        if (actionBar == null) {
+            actionBar = findToolbar((ViewGroup) activity.findViewById(android.R.id.content)
+                    .getRootView());
+        }
+        return actionBar;
+    }
+
+    private static ViewGroup findToolbar(ViewGroup viewGroup) {
+        ViewGroup toolbar = null;
+        for (int i = 0, len = viewGroup.getChildCount(); i < len; i++) {
+            View view = viewGroup.getChildAt(i);
+            if (view.getClass().getName().equals("android.support.v7.widget.Toolbar")
+                    || view.getClass().getName().equals("android.widget.Toolbar")) {
+                toolbar = (ViewGroup) view;
+            } else if (view instanceof ViewGroup) {
+                toolbar = findToolbar((ViewGroup) view);
+            }
+            if (toolbar != null) {
+                break;
+            }
+        }
+        return toolbar;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.opciones, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_iniciar_sesion) {
+            Toast.makeText(this, "Opción 1", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.menu_ir_a_pagina_universidad) {
+            Toast.makeText(this, "Opción 2", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.menu_cambiar_idioma) {
+            Toast.makeText(this, "Opción 3", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public void changeLayoutConfiguration(Fragment fragment, int weightLeft, int weightRight) {
+        LinearLayout layoutLeft = (LinearLayout) fragment.getView().findViewById(R.id.container_left);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layoutLeft.getLayoutParams();
+        if (params.weight != weightLeft) {
+            params.weight = weightLeft;
+            layoutLeft.setLayoutParams(params);
+        }
+        LinearLayout layoutRight = (LinearLayout) fragment.getView().findViewById(R.id.container_right);
+        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) layoutRight.getLayoutParams();
+        if (params2.weight != weightRight) {
+            params2.weight = weightRight;
+            layoutRight.setLayoutParams(params2);
+        }
+    }
+
+    /**
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
+        outState.putSparseParcelableArray("SparseArray", (SparseArray<? extends Parcelable>) adapter.getRegisteredFragments());
+
+    }
+    **/
 }

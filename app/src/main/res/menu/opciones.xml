@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_iniciar_sesion"
+        android:orderInCategory="1"
+        android:title="@string/iniciar_sesion"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_ir_a_pagina_universidad"
+        android:orderInCategory="2"
+        android:title="@string/ir_a_pagina_universidad"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_cambiar_idioma"
+        android:orderInCategory="3"
+        android:title="@string/cambiar_idioma"
+        app:showAsAction="never" />
+
+</menu>
