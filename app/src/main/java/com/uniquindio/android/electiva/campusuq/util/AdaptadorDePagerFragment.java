@@ -35,11 +35,11 @@ public class AdaptadorDePagerFragment extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                containerFragment = ContainerFragment.newNoticeContainerInstance(configuration);
+                containerFragment = ContainerFragment.newContainerInstance(position+1, configuration);
                 return containerFragment;
             case 1:
-                f = SuggestionFragment.newInstance(R.color.android_blue, position+1);
-                break;
+                containerFragment = ContainerFragment.newContainerInstance(position+1, configuration);
+                return containerFragment;
             case 2:
                 f = SuggestionFragment.newInstance(R.color.android_green, position+1);
                 break;

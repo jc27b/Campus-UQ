@@ -18,13 +18,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.fragments.DirectoryDetailFragment;
+import com.uniquindio.android.electiva.campusuq.fragments.DirectoryFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeFragment;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDePagerFragment;
 
-public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener {
+public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener, DirectoryFragment.OnDependenciaSeleccionadaListener {
 
-    private int posicion;
+    private int posicionNoticia;
+    private int posicionDependencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         setContentView(R.layout.activity_main);
 
         AnimationActivity.fa.finish();
-        posicion = 0;
+        posicionNoticia = 0;
+        posicionDependencia = 0;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -52,10 +56,10 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
             @Override
             public void onPageSelected(int position) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    if (position == 0) {
+                    if (position == 0 || position == 1) {
                         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
                         AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-                        Fragment fragment = adapter.getRegisteredFragment(0);
+                        Fragment fragment = adapter.getRegisteredFragment(position);
                         changeLayoutConfiguration(fragment, 50, 50);
 
                     }
@@ -89,8 +93,9 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
             ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
             AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            if (viewPager.getCurrentItem() == 0) {
-                Fragment fragment = adapter.getRegisteredFragment(0);
+            int currentItem = viewPager.getCurrentItem();
+            if (currentItem == 0 || currentItem == 1) {
+                Fragment fragment = adapter.getRegisteredFragment(currentItem);
                 changeLayoutConfiguration(fragment, 50, 50);
 
             }
@@ -98,14 +103,15 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
             fragmentTransaction.show(noticeDetailFragment);
             fragmentTransaction.commit();
             fragmentManager.executePendingTransactions();
-            noticeDetailFragment.mostrarNoticia(noticeFragment.getNoticias().get(posicion));
+            noticeDetailFragment.mostrarNoticia(noticeFragment.getNoticias().get(posicionNoticia));
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
 
             ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
             AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            if (viewPager.getCurrentItem() == 0) {
-                Fragment fragment = adapter.getRegisteredFragment(0);
+            int currentItem = viewPager.getCurrentItem();
+            if (currentItem == 0 || currentItem == 1) {
+                Fragment fragment = adapter.getRegisteredFragment(currentItem);
                 changeLayoutConfiguration(fragment, 100, 0);
 
             }
@@ -123,8 +129,9 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
             AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            if (viewPager.getCurrentItem() == 0) {
-                Fragment fragment = adapter.getRegisteredFragment(0);
+            int currentItem = viewPager.getCurrentItem();
+            if (currentItem == 0 || currentItem == 1) {
+                Fragment fragment = adapter.getRegisteredFragment(currentItem);
                 changeLayoutConfiguration(fragment, 100, 0);
 
             }
@@ -135,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
     @Override
     public void onNoticiaSeleccionada(int position) {
-        posicion = position;
+        posicionNoticia = position;
 
         NoticeFragment noticeFragment = (NoticeFragment) getSupportFragmentManager().findFragmentByTag("noticeFragment");
         NoticeDetailFragment noticeDetailFragment = (NoticeDetailFragment) getSupportFragmentManager().findFragmentByTag("noticeDetailFragment");
@@ -159,6 +166,35 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         }
 
         noticeDetailFragment.mostrarNoticia(noticeFragment.getNoticias().get(position));
+
+    }
+
+    @Override
+    public void onDependenciaSeleccionada(int position) {
+        posicionDependencia = position;
+
+        DirectoryFragment directoryFragment = (DirectoryFragment) getSupportFragmentManager().findFragmentByTag("directoryFragment");
+        DirectoryDetailFragment directoryDetailFragment = (DirectoryDetailFragment) getSupportFragmentManager().findFragmentByTag("directoryDetailFragment");
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
+            Fragment fragment = adapter.getRegisteredFragment(1);
+            changeLayoutConfiguration(fragment, 0, 100);
+
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.hide(directoryFragment);
+            fragmentTransaction.show(directoryDetailFragment);
+            fragmentTransaction.addToBackStack("mostrarDirectoryDetailFragment");
+            fragmentTransaction.commit();
+            fragmentManager.executePendingTransactions();
+
+        }
+
+        directoryDetailFragment.mostrarContacto(directoryFragment.getDirectorio().get(position).getContactos().get(0));
 
     }
 
@@ -231,14 +267,6 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         }
     }
 
-    /**
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-        outState.putSparseParcelableArray("SparseArray", (SparseArray<? extends Parcelable>) adapter.getRegisteredFragments());
 
-    }
-    **/
+
 }

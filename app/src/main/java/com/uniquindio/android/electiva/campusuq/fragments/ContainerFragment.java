@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.vo.Contacto;
+import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 import com.uniquindio.android.electiva.campusuq.vo.Noticia;
 
 import java.util.ArrayList;
@@ -34,12 +36,12 @@ public class ContainerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ContainerFragment newNoticeContainerInstance(int configuration) {
+    public static ContainerFragment newContainerInstance(int tipoDeFragmento, int configuration) {
 
         ContainerFragment fragment = new ContainerFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putInt(TIPO_FRAGMENTO, 1);
+        bundle.putInt(TIPO_FRAGMENTO, tipoDeFragmento);
         bundle.putInt(CONFIGURATION, configuration);
         fragment.setArguments(bundle);
         fragment.setRetainInstance(true);
@@ -47,6 +49,7 @@ public class ContainerFragment extends Fragment {
         return fragment;
 
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,7 @@ public class ContainerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_container, container, false);
 
-        if (configuration == Configuration.ORIENTATION_PORTRAIT) {
+        if (configuration == Configuration.ORIENTATION_PORTRAIT && (tipoDeContenedor == 1 || tipoDeContenedor == 2)) {
             LinearLayout layout = (LinearLayout) vista.findViewById(R.id.container_left);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layout.getLayoutParams();
             params.weight = 100;
@@ -100,6 +103,51 @@ public class ContainerFragment extends Fragment {
                     fragmentTransaction.commit();
                     fragmentManager.executePendingTransactions();
                     noticeDetailFragment.mostrarNoticia(noticias.get(0));
+                }
+            };
+            handler.post(runPager);
+
+
+        } else if (tipoDeContenedor == 2) {
+
+            final DirectoryFragment directoryFragment = new DirectoryFragment();
+
+            final ArrayList<Dependencia> directorio = new ArrayList<Dependencia>();
+
+            for (int i = 1; i < 4; i++) {
+                Dependencia dependencia = new Dependencia();
+                dependencia.setNombre("Dependencia "+i);
+                ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+                for (int j = 1; j < 4; j++) {
+                    Contacto contacto = new Contacto();
+                    contacto.setNombre("Contacto "+j+" de la Dependencia "+i);
+                    contacto.setTelefono("735930"+(i*j));
+                    contacto.setExtension("364-925-7"+i+""+j);
+                    contactos.add(contacto);
+                }
+                dependencia.setContactos(contactos);
+                directorio.add(dependencia);
+            }
+
+            directoryFragment.setDirectorio(directorio);
+
+            final DirectoryDetailFragment directoryDetailFragment = new DirectoryDetailFragment();
+
+            runPager = new Runnable() {
+
+                @Override
+                public void run()
+                {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.container_left, directoryFragment, "directoryFragment");
+                    fragmentTransaction.add(R.id.container_right, directoryDetailFragment, "directoryDetailFragment");
+                    if (configuration == Configuration.ORIENTATION_PORTRAIT) {
+                        fragmentTransaction.hide(directoryDetailFragment);
+                    }
+                    fragmentTransaction.commit();
+                    fragmentManager.executePendingTransactions();
+                    directoryDetailFragment.mostrarContacto(directorio.get(0).getContactos().get(0));
                 }
             };
             handler.post(runPager);
