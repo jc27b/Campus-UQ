@@ -14,12 +14,12 @@ import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
 import java.util.ArrayList;
 
-public class AdaptadorDeDirectorio extends RecyclerView.Adapter<AdaptadorDeDirectorio.DependenciaViewHolder> {
+public class AdaptadorDeDependencia extends RecyclerView.Adapter<AdaptadorDeDependencia.DependenciaViewHolder> {
 
     private ArrayList<Dependencia> directorio;
     private static OnClickAdaptadorDeDirectorio listener;
 
-    public AdaptadorDeDirectorio(ArrayList<Dependencia> directorio, DirectoryFragment directoryFragment) {
+    public AdaptadorDeDependencia(ArrayList<Dependencia> directorio, DirectoryFragment directoryFragment) {
         this.directorio = directorio;
         listener = (OnClickAdaptadorDeDirectorio) directoryFragment;
     }

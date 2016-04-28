@@ -1,28 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container_fragment"
+    android:id="@+id/notice_container_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="100"
     android:orientation="horizontal"
-    tools:context="com.uniquindio.android.electiva.campusuq.fragments.ContainerFragment">
+    tools:context=".fragments.NoticeContainerFragment">
 
 
     <LinearLayout
-        android:id="@+id/container_left"
+        android:id="@+id/notice_container_left"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="left|center_vertical"
-        android:layout_weight="50"
+        android:layout_weight="1"
         android:orientation="vertical">
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/container_right"
+        android:id="@+id/notice_container_right"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="right|center_vertical"
-        android:layout_weight="50"
+        android:layout_weight="1"
         android:orientation="vertical">
     </LinearLayout>
 

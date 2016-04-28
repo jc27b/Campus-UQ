@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.uniquindio.android.electiva.campusuq.R;
-import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeDirectorio;
+import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeDependencia;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DirectoryFragment extends Fragment implements AdaptadorDeDirectorio.OnClickAdaptadorDeDirectorio {
+public class DirectoryFragment extends Fragment implements AdaptadorDeDependencia.OnClickAdaptadorDeDirectorio {
 
     private RecyclerView listadoDeDependencias;
     private ArrayList<Dependencia> directorio;
-    private AdaptadorDeDirectorio adaptador;
+    private AdaptadorDeDependencia adaptador;
     private OnDependenciaSeleccionadaListener listener;
 
     public DirectoryFragment() {
@@ -35,7 +35,6 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDirectorio
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setRetainInstance(true);
 
     }
 
@@ -54,7 +53,7 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDirectorio
 
         listadoDeDependencias = (RecyclerView) getView().findViewById(R.id.RecView2);
 
-        adaptador = new AdaptadorDeDirectorio(directorio, this);
+        adaptador = new AdaptadorDeDependencia(directorio, this);
 
         listadoDeDependencias.setAdapter(adaptador);
 
@@ -63,7 +62,7 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDirectorio
 
     }
 
-    public AdaptadorDeDirectorio getAdaptador() {
+    public AdaptadorDeDependencia getAdaptador() {
         return adaptador;
     }
 

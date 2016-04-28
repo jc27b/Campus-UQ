@@ -35,8 +35,6 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setRetainInstance(true);
-        //setHasOptionsMenu(true);
 
     }
 

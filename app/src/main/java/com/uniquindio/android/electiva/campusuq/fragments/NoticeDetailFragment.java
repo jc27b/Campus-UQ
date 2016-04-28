@@ -31,7 +31,6 @@ public class NoticeDetailFragment extends Fragment implements View.OnClickListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setRetainInstance(true);
     }
 
     @Override

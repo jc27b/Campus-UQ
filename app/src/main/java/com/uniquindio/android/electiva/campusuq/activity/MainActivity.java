@@ -1,20 +1,25 @@
 package com.uniquindio.android.electiva.campusuq.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
@@ -22,12 +27,20 @@ import com.uniquindio.android.electiva.campusuq.fragments.DirectoryDetailFragmen
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeFragment;
+import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeContacto;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDePagerFragment;
+import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 
-public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener, DirectoryFragment.OnDependenciaSeleccionadaListener {
+public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener, DirectoryFragment.OnDependenciaSeleccionadaListener, DirectoryDetailFragment.OnContactoSeleccionadoListener {
+
+    private static final String POSICION_NOTICIA = "posicion_noticia";
+    private static final String POSICION_DEPENDENCIA = "posicion_dependencia";
+    private static final String ULTIMO_ITEM_SELECCIONADO = "ultimo_item_seleccionado";
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
 
     private int posicionNoticia;
     private int posicionDependencia;
+    private int lastItemSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +48,23 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         setContentView(R.layout.activity_main);
 
         AnimationActivity.fa.finish();
-        posicionNoticia = 0;
-        posicionDependencia = 0;
+
+        if (savedInstanceState == null) {
+            posicionNoticia = 0;
+            posicionDependencia = 0;
+            lastItemSelected = 0;
+        } else {
+            posicionNoticia = savedInstanceState.getInt(POSICION_NOTICIA);
+            posicionDependencia = savedInstanceState.getInt(POSICION_DEPENDENCIA);
+            lastItemSelected = savedInstanceState.getInt(ULTIMO_ITEM_SELECCIONADO);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        AdaptadorDePagerFragment adapter = new AdaptadorDePagerFragment(getSupportFragmentManager(), getResources().getConfiguration().orientation);
+        AdaptadorDePagerFragment adapter = new AdaptadorDePagerFragment(getSupportFragmentManager());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
@@ -55,15 +76,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
             @Override
             public void onPageSelected(int position) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    if (position == 0 || position == 1) {
-                        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-                        AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-                        Fragment fragment = adapter.getRegisteredFragment(position);
-                        changeLayoutConfiguration(fragment, 50, 50);
-
-                    }
-                }
+                lastItemSelected = position;
             }
 
             @Override
@@ -78,66 +91,31 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
     }
 
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-        NoticeFragment noticeFragment = (NoticeFragment) getSupportFragmentManager().findFragmentByTag("noticeFragment");
-        NoticeDetailFragment noticeDetailFragment = (NoticeDetailFragment) getSupportFragmentManager().findFragmentByTag("noticeDetailFragment");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            int currentItem = viewPager.getCurrentItem();
-            if (currentItem == 0 || currentItem == 1) {
-                Fragment fragment = adapter.getRegisteredFragment(currentItem);
-                changeLayoutConfiguration(fragment, 50, 50);
-
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            FragmentManager fm = getSupportFragmentManager();
+            int count = fm.getBackStackEntryCount();
+            for (int i = 0; i < count; ++i) {
+                fm.popBackStack();
             }
-
-            fragmentTransaction.show(noticeDetailFragment);
-            fragmentTransaction.commit();
-            fragmentManager.executePendingTransactions();
-            noticeDetailFragment.mostrarNoticia(noticeFragment.getNoticias().get(posicionNoticia));
-
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-
-            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            int currentItem = viewPager.getCurrentItem();
-            if (currentItem == 0 || currentItem == 1) {
-                Fragment fragment = adapter.getRegisteredFragment(currentItem);
-                changeLayoutConfiguration(fragment, 100, 0);
-
-            }
-
-            fragmentTransaction.hide(noticeDetailFragment);
-            fragmentTransaction.commit();
         }
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            int currentItem = viewPager.getCurrentItem();
-            if (currentItem == 0 || currentItem == 1) {
-                Fragment fragment = adapter.getRegisteredFragment(currentItem);
-                changeLayoutConfiguration(fragment, 100, 0);
-
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new AdaptadorDePagerFragment(getSupportFragmentManager()));
+        viewPager.setCurrentItem(lastItemSelected);
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (lastItemSelected == 0) {
+                    onNoticiaSeleccionada(posicionNoticia);
+                } else if (lastItemSelected == 1) {
+                    onDependenciaSeleccionada(posicionDependencia);
+                }
             }
-
-        }
-
+        };
+        handler.post(runnable);
     }
 
     @Override
@@ -149,17 +127,11 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
-            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            Fragment fragment = adapter.getRegisteredFragment(0);
-            changeLayoutConfiguration(fragment, 0, 100);
-
-
+            noticeDetailFragment = new NoticeDetailFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.hide(noticeFragment);
-            fragmentTransaction.show(noticeDetailFragment);
-            fragmentTransaction.addToBackStack("mostrarNoticeDetailFragment");
+            fragmentTransaction.replace(R.id.notice_container_left, noticeDetailFragment, "noticeDetailFragment");
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
             fragmentManager.executePendingTransactions();
 
@@ -170,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     }
 
     @Override
-    public void onDependenciaSeleccionada(int position) {
+    public void onDependenciaSeleccionada(final int position) {
         posicionDependencia = position;
 
         DirectoryFragment directoryFragment = (DirectoryFragment) getSupportFragmentManager().findFragmentByTag("directoryFragment");
@@ -178,24 +150,38 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
-            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-            AdaptadorDePagerFragment adapter = (AdaptadorDePagerFragment) viewPager.getAdapter();
-            Fragment fragment = adapter.getRegisteredFragment(1);
-            changeLayoutConfiguration(fragment, 0, 100);
-
-
+            directoryDetailFragment = new DirectoryDetailFragment();
+            directoryDetailFragment.setDependencia(directoryFragment.getDirectorio().get(position).getContactos());
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.hide(directoryFragment);
-            fragmentTransaction.show(directoryDetailFragment);
-            fragmentTransaction.addToBackStack("mostrarDirectoryDetailFragment");
+            fragmentTransaction.replace(R.id.directory_container_left, directoryDetailFragment, "directoryDetailFragment");
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
             fragmentManager.executePendingTransactions();
 
+        } else {
+            directoryDetailFragment.setDependencia(directoryFragment.getDirectorio().get(position).getContactos());
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.RecView3);
+            recyclerView.setAdapter(new AdaptadorDeContacto(directoryDetailFragment.getDependencia(), directoryDetailFragment));
+            recyclerView.invalidate();
         }
 
-        directoryDetailFragment.mostrarContacto(directoryFragment.getDirectorio().get(position).getContactos().get(0));
+    }
 
+    @Override
+    public void onContactoSeleccionado(int position) {
+        DirectoryDetailFragment directoryDetailFragment = (DirectoryDetailFragment) getSupportFragmentManager().findFragmentByTag("directoryDetailFragment");
+        Contacto contacto = directoryDetailFragment.getDependencia().get(position);
+        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contacto.getTelefono().trim()));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+        }
+        try {
+            startActivity(callIntent);
+        } catch (SecurityException se) {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", contacto.getTelefono(), null));
+            startActivity(intent);
+        }
     }
 
     public static ViewGroup findActionBar(Activity activity) {
@@ -242,7 +228,8 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
             Toast.makeText(this, "Opción 1", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.menu_ir_a_pagina_universidad) {
-            Toast.makeText(this, "Opción 2", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.uniquindio.edu.co/"));
+            startActivity(intent);
         }
         if (id == R.id.menu_cambiar_idioma) {
             Toast.makeText(this, "Opción 3", Toast.LENGTH_SHORT).show();
@@ -251,22 +238,13 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void changeLayoutConfiguration(Fragment fragment, int weightLeft, int weightRight) {
-        LinearLayout layoutLeft = (LinearLayout) fragment.getView().findViewById(R.id.container_left);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layoutLeft.getLayoutParams();
-        if (params.weight != weightLeft) {
-            params.weight = weightLeft;
-            layoutLeft.setLayoutParams(params);
-        }
-        LinearLayout layoutRight = (LinearLayout) fragment.getView().findViewById(R.id.container_right);
-        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) layoutRight.getLayoutParams();
-        if (params2.weight != weightRight) {
-            params2.weight = weightRight;
-            layoutRight.setLayoutParams(params2);
-        }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(POSICION_NOTICIA, posicionNoticia);
+        outState.putInt(POSICION_DEPENDENCIA, posicionDependencia);
+        outState.putInt(ULTIMO_ITEM_SELECCIONADO, lastItemSelected);
     }
-
 
 
 }

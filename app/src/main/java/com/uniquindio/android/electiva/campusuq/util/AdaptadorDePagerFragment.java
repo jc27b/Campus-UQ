@@ -7,7 +7,8 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.uniquindio.android.electiva.campusuq.R;
-import com.uniquindio.android.electiva.campusuq.fragments.ContainerFragment;
+import com.uniquindio.android.electiva.campusuq.fragments.DirectoryContainerFragment;
+import com.uniquindio.android.electiva.campusuq.fragments.NoticeContainerFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.SuggestionFragment;
 
 import java.util.ArrayList;
@@ -16,30 +17,27 @@ public class AdaptadorDePagerFragment extends FragmentPagerAdapter {
 
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private ArrayList<String> listaDeTiulos;
-    private int configuration;
 
-    public AdaptadorDePagerFragment(FragmentManager fm, int configuration) {
+    public AdaptadorDePagerFragment(FragmentManager fm) {
         super(fm);
         listaDeTiulos = new ArrayList<>();
         listaDeTiulos.add("Noticias");
         listaDeTiulos.add("Directorio");
         listaDeTiulos.add("Sugerencias");
-        this.configuration = configuration;
     }
 
     @Override
     public Fragment getItem(int position) {
-        ContainerFragment containerFragment = null;
         SuggestionFragment f = null;
         SuggestionFragment.mostrarMensajeLog("pos: "+position);
 
         switch (position) {
             case 0:
-                containerFragment = ContainerFragment.newContainerInstance(position+1, configuration);
-                return containerFragment;
+                NoticeContainerFragment noticeContainerFragment = NoticeContainerFragment.newContainerInstance();
+                return noticeContainerFragment;
             case 1:
-                containerFragment = ContainerFragment.newContainerInstance(position+1, configuration);
-                return containerFragment;
+                DirectoryContainerFragment directoryContainerFragment = DirectoryContainerFragment.newContainerInstance();
+                return directoryContainerFragment;
             case 2:
                 f = SuggestionFragment.newInstance(R.color.android_green, position+1);
                 break;
