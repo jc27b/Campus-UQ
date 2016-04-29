@@ -20,8 +20,6 @@ import java.util.ArrayList;
  */
 public class DirectoryContainerFragment extends Fragment {
 
-    private static final String CONFIGURATIONS_CHANGED = "configurations_changed";
-
     public final Handler handler = new Handler();
     public Runnable runPager;
 

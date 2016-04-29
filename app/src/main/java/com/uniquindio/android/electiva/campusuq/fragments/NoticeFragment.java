@@ -101,37 +101,5 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
         return noticias;
     }
 
-    /**
-     @Override
-     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-     super.onCreateOptionsMenu(menu, inflater);
-     }
-
-     @Override
-     public boolean onOptionsItemSelected(MenuItem item) {
-
-         int id = item.getItemId();
-
-         if (id == R.id.menu_agregar) {
-         noticias.add(0, new Noticia("Nueva noticia"));
-         adaptador.notifyItemInserted(0);
-         }
-         if (id == R.id.menu_eliminar) {
-         noticias.remove(0);
-         adaptador.notifyItemRemoved(0);
-         }
-         if (id == R.id.menu_modificar) {
-         Noticia aux = noticias.get(1);
-         noticias.set(1, noticias.get(2));
-         noticias.set(2, aux);
-
-         adaptador.notifyItemMoved(1, 2);
-         }
-
-         return super.onOptionsItemSelected(item);
-     }
-     **/
-
-
 
 }

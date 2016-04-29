@@ -2,9 +2,14 @@ package com.uniquindio.android.electiva.campusuq.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,10 +21,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
@@ -41,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     private int posicionNoticia;
     private int posicionDependencia;
     private int lastItemSelected;
+
+    private BroadcastReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
+
+    private ViewGroup actionToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +97,14 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
             }
         });
 
-        TabLayout tabLayout = (TabLayout) findActionBar(this).findViewById(R.id.tab_layout);
+        actionToolBar = findActionBar(this);
+
+        TabLayout tabLayout = (TabLayout) actionToolBar.findViewById(R.id.tab_layout);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 
     }
 
@@ -238,6 +255,13 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean haveNetworkConnection(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        boolean isConnected = netInfo != null && netInfo.isConnected();
+        return isConnected;
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -246,5 +270,56 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         outState.putInt(ULTIMO_ITEM_SELECCIONADO, lastItemSelected);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        connectivityReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("ConnectivityReceiver", "action -> " + intent.getAction());
+                Log.d("HaveNetworkConnection", ""+haveNetworkConnection(context));
+                TextView textView = (TextView) findViewById(R.id.text_no_connection);
+                //TabLayout tabLayout = (TabLayout) actionToolBar.findViewById(R.id.tab_layout);
+                if (!haveNetworkConnection(context)) {
+                    textView.setVisibility(View.VISIBLE);
+                    /*
+                    LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
+                    tabStrip.getChildAt(0).setEnabled(false);
+                    tabStrip.getChildAt(2).setClickable(false);
+                    */
+
+                } else {
+                    textView.setVisibility(View.GONE);
+                    /*
+                    LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
+                    tabStrip.getChildAt(0).setEnabled(true);
+                    tabStrip.getChildAt(2).setClickable(true);
+                    */
+                }
+
+            }
+        };
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        if (connectivityReceiver != null) {
+            unregisterReceiver(connectivityReceiver);
+            connectivityReceiver = null;
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (connectivityReceiver != null) {
+            unregisterReceiver(connectivityReceiver);
+            connectivityReceiver = null;
+        }
+        super.onDestroy();
+    }
 
 }

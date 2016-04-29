@@ -6,42 +6,39 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.uniquindio.android.electiva.campusuq.fragments.DirectoryContainerFragment;
-import com.uniquindio.android.electiva.campusuq.fragments.NoticeContainerFragment;
-import com.uniquindio.android.electiva.campusuq.fragments.SuggestionContainerFragment;
+import com.uniquindio.android.electiva.campusuq.fragments.MailboxFragment;
+import com.uniquindio.android.electiva.campusuq.fragments.SuggestionFragment;
 
 import java.util.ArrayList;
 
-public class AdaptadorDePagerFragment extends FragmentPagerAdapter {
+public class AdaptadorDePagerSuggestionFragment extends FragmentPagerAdapter {
 
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private ArrayList<String> listaDeTiulos;
 
-    public AdaptadorDePagerFragment(FragmentManager fm) {
+    public AdaptadorDePagerSuggestionFragment(FragmentManager fm) {
         super(fm);
         listaDeTiulos = new ArrayList<>();
-        listaDeTiulos.add("Noticias");
-        listaDeTiulos.add("Directorio");
         listaDeTiulos.add("Sugerencias");
+        listaDeTiulos.add("Buzon");
     }
 
     @Override
     public Fragment getItem(int position) {
-        SuggestionContainerFragment f = null;
+
+        Fragment fragment = null;
 
         switch (position) {
             case 0:
-                NoticeContainerFragment noticeContainerFragment = NoticeContainerFragment.newContainerInstance();
-                return noticeContainerFragment;
+                fragment = SuggestionFragment.newInstance();
+                break;
             case 1:
-                DirectoryContainerFragment directoryContainerFragment = DirectoryContainerFragment.newContainerInstance();
-                return directoryContainerFragment;
-            case 2:
-                f = SuggestionContainerFragment.newInstance();
+                fragment = MailboxFragment.newInstance();
                 break;
         }
 
-        return f;
+        return fragment;
+
     }
 
     @Override
@@ -78,4 +75,5 @@ public class AdaptadorDePagerFragment extends FragmentPagerAdapter {
     public void setRegisteredFragments(SparseArray<Fragment> registeredFragments) {
         this.registeredFragments = registeredFragments;
     }
+
 }
