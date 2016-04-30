@@ -24,34 +24,66 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="15dp">
 
             <TextView
                 android:id="@+id/titulo_de_detalle_noticia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="7dp"
-                android:layout_marginTop="7dp"
-                android:text="Medium Text"
+                android:layout_marginBottom="10dp"
+                android:text="Titulo de la Noticia"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/descripcion_de_detalle_noticia"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:maxLines="30"
-                android:text="@string/texto_detalle_de_noticia"
-                android:textSize="@dimen/detalle_texto_descripción" />
+                android:text="ID de la Noticia"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"/>
 
-            <Button
-                android:id="@+id/btn_compartir_facebook"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/compartir_facebook" />
+                android:text="Fecha de la Noticia"
+                android:textSize="20dp"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/descripcion_de_detalle_noticia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/texto_detalle_de_noticia"
+                android:textSize="@dimen/detalle_texto_descripción"
+                android:layout_marginBottom="30dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_compartir_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/compartir_facebook"
+                    android:gravity="center"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"/>
+
+                <Button
+                    android:id="@+id/btn_compartir_twitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/compartir_twitter"
+                    android:gravity="center"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -27,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryDetailFragment;
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     private static final String POSICION_DEPENDENCIA = "posicion_dependencia";
     private static final String ULTIMO_ITEM_SELECCIONADO = "ultimo_item_seleccionado";
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
+    private static final String ACTIVITY_OPTION_TYPE = "option_type";
 
     private int posicionNoticia;
     private int posicionDependencia;
@@ -242,14 +242,22 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         int id = item.getItemId();
 
         if (id == R.id.menu_iniciar_sesion) {
-            Toast.makeText(this, "Opción 1", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, OptionActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(ACTIVITY_OPTION_TYPE, "Iniciar Sesión");
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
         if (id == R.id.menu_ir_a_pagina_universidad) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.uniquindio.edu.co/"));
             startActivity(intent);
         }
         if (id == R.id.menu_cambiar_idioma) {
-            Toast.makeText(this, "Opción 3", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, OptionActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(ACTIVITY_OPTION_TYPE, "Cambiar Idioma");
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
