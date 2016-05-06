@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Titulo de la Noticia"
+                android:text="@string/texto_titulo_de_noticia"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
                 android:id="@+id/id_de_detalle_noticia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ID de la Noticia"
+                android:text="@string/texto_id_de_noticia"
                 android:textSize="20dp"
                 android:layout_marginBottom="10dp"/>
 
@@ -49,7 +49,7 @@
                 android:id="@+id/fecha_de_detalle_noticia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fecha de la Noticia"
+                android:text="@string/texto_fecha_de_noticia"
                 android:textSize="20dp"
                 android:layout_marginBottom="15dp"/>
 

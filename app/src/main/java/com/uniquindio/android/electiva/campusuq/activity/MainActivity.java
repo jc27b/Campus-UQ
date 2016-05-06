@@ -212,8 +212,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
             actionBar = (ViewGroup) activity.findViewById(id);
         }
         if (actionBar == null) {
-            actionBar = findToolbar((ViewGroup) activity.findViewById(android.R.id.content)
-                    .getRootView());
+            actionBar = findToolbar((ViewGroup) activity.findViewById(android.R.id.content).getRootView());
         }
         return actionBar;
     }

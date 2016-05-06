@@ -43,7 +43,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="14dp"
-                android:text="Nombre Contacto"
+                android:text="@string/nombre_contacto"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:text="Telefono Contacto"
+                android:text="@string/telefono_contacto"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:text="Extension Contacto"
+                android:text="@string/extension_contacto"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"/>
 
