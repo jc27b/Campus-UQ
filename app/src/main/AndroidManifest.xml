@@ -29,7 +29,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize"></activity>
-        <activity android:name=".activity.OptionActivity"></activity>
     </application>
 
 </manifest>

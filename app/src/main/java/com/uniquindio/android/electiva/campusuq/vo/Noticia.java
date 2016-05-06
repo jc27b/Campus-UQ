@@ -1,15 +1,29 @@
 package com.uniquindio.android.electiva.campusuq.vo;
 
-import java.util.Date;
+import android.graphics.Bitmap;
 
 public class Noticia {
 
+    private Bitmap imagen;
     private String titulo;
-    private Date fecha;
+    private String id;
+    private String fecha;
     private String descripcion;
 
-    public Noticia(String titulo) {
+    public Noticia(Bitmap imagen, String titulo, String id, String fecha, String descripcion) {
+        this.imagen = imagen;
         this.titulo = titulo;
+        this.id = id;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
     }
 
     public String getTitulo() {
@@ -20,12 +34,20 @@ public class Noticia {
         this.titulo = titulo;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -35,4 +57,5 @@ public class Noticia {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
 }

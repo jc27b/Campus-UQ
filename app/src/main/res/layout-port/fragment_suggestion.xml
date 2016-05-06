@@ -96,7 +96,9 @@
                     android:text="@string/adjuntar_imagen"
                     android:layout_marginLeft="20dp"
                     android:layout_gravity="center"
-                    android:layout_weight="0.4"/>
+                    android:layout_weight="0.4"
+                    android:background="@drawable/mybutton"
+                    android:padding="10dp"/>
 
             </LinearLayout>
 
@@ -106,7 +108,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enviar_sugerencia"
                 android:layout_marginTop="20dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:background="@drawable/mybutton"
+                android:padding="10dp"/>
 
         </LinearLayout>
 

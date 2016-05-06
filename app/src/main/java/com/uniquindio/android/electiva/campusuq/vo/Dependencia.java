@@ -1,21 +1,27 @@
 package com.uniquindio.android.electiva.campusuq.vo;
 
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
 public class Dependencia {
 
-    private Drawable imagen;
+    private Bitmap imagen;
     private String nombre;
     private ArrayList<Contacto> contactos;
 
-    public Drawable getImagen() {
+    public Dependencia(Bitmap imagen, String nombre, ArrayList<Contacto> contactos) {
+        this.imagen = imagen;
+        this.nombre = nombre;
+        this.contactos = contactos;
+    }
+
+    public Bitmap getImagen() {
         return imagen;
     }
 
-    public void setImagen(Drawable imagen) {
+    public void setImagen(Bitmap imagen) {
         this.imagen = imagen;
     }
 

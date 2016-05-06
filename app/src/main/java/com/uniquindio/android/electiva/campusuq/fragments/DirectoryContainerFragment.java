@@ -1,6 +1,8 @@
 package com.uniquindio.android.electiva.campusuq.fragments;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -55,18 +57,32 @@ public class DirectoryContainerFragment extends Fragment {
 
                 ArrayList<Dependencia> directorio = new ArrayList<Dependencia>();
 
-                for (int i = 1; i < 4; i++) {
-                    Dependencia dependencia = new Dependencia();
-                    dependencia.setNombre("Dependencia "+i);
+                for (int i = 1; i <= 5; i++) {
+                    Bitmap imagen = null;
+                    switch (i) {
+                        case 1:
+                            imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.rectoria);
+                            break;
+                        case 2:
+                            imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vacad);
+                            break;
+                        case 3:
+                            imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vadmin);
+                            break;
+                        case 4:
+                            imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vextydessocial);
+                            break;
+                        case 5:
+                            imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vinvestigaciones);
+                            break;
+                    }
+
                     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
-                    for (int j = 1; j < 4; j++) {
-                        Contacto contacto = new Contacto();
-                        contacto.setNombre("Contacto "+j+" de la Dependencia "+i);
-                        contacto.setTelefono("735930"+(i*j));
-                        contacto.setExtension("364-925-7"+i+""+j);
+                    for (int j = 1; j <= 7; j++) {
+                        Contacto contacto = new Contacto("Contacto "+j+" de la Dependencia "+i,"735930"+(i*j),"364-925-7"+i+""+j);
                         contactos.add(contacto);
                     }
-                    dependencia.setContactos(contactos);
+                    Dependencia dependencia = new Dependencia(imagen,"Dependencia "+i,contactos);
                     directorio.add(dependencia);
                 }
 

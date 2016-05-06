@@ -5,10 +5,10 @@
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
-    android:layout_margin="6dp"
+    android:layout_margin="5dp"
     card_view:cardBackgroundColor="#00ffffff"
-    card_view:cardCornerRadius="20dp"
-    card_view:cardElevation="7dp"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="5dp"
     android:id="@+id/resumen_dependencia">
 
     <RelativeLayout
@@ -17,7 +17,7 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/imagen"
+            android:id="@+id/imagen_dependencia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -29,7 +29,7 @@
             android:id="@+id/nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imagen"
+            android:layout_below="@id/imagen_dependencia"
             android:layout_alignParentLeft="true"
             android:text="Dependencia"
             android:textSize="30sp" />

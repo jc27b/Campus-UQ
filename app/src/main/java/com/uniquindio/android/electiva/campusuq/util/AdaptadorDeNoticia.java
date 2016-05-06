@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uniquindio.android.electiva.campusuq.R;
@@ -44,15 +45,18 @@ public class AdaptadorDeNoticia extends RecyclerView.Adapter<AdaptadorDeNoticia.
     public static class NoticiaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView txtTitulo;
+        private ImageView imagen;
 
         public NoticiaViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             txtTitulo = (TextView) itemView.findViewById(R.id.titulo);
+            imagen = (ImageView) itemView.findViewById(R.id.imagen_noticia);
         }
 
         public void binNoticia(Noticia n) {
             txtTitulo.setText(n.getTitulo());
+            imagen.setImageBitmap(n.getImagen());
         }
 
         @Override

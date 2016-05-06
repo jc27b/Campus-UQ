@@ -51,12 +51,12 @@ public class AdaptadorDeDependencia extends RecyclerView.Adapter<AdaptadorDeDepe
             super(itemView);
             itemView.setOnClickListener(this);
             txtNombre = (TextView) itemView.findViewById(R.id.nombre);
-            imagen = (ImageView) itemView.findViewById(R.id.imagen);
+            imagen = (ImageView) itemView.findViewById(R.id.imagen_dependencia);
         }
 
         public void binDependencia(Dependencia d) {
             txtNombre.setText(d.getNombre());
-            imagen.setImageResource(R.drawable.vinvestigaciones);
+            imagen.setImageBitmap(d.getImagen());
         }
 
         @Override

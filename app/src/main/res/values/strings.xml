@@ -1,8 +1,7 @@
 <resources>
+
     <string name="app_name">Campus UQ</string>
-    <string name="agregar_noticia">Agregar Noticia</string>
-    <string name="modificar_posicion">Modificar Posicion</string>
-    <string name="eliminar_noticia">Eliminar Noticia</string>
+
     <string name="descripcion_imagen_detalle">Imagen de la noticia seleccionada</string>
     <string name="texto_detalle_de_noticia">Detalle de la noticia</string>
     <string name="compartir_facebook">Facebook</string>
@@ -25,8 +24,5 @@
     <string name="corregido">Corregido</string>
 
     <string name="no_connection">No hay conexión a internet</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -21,5 +21,7 @@
         <item name="android:layout_height">1pt</item>
     </style>
 
+    <style name="MiDialogo" parent="android:Theme.Holo.Dialog">
+    </style>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.uniquindio.android.electiva.campusuq.fragments;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,7 +14,10 @@ import android.view.ViewGroup;
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.vo.Noticia;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,9 +59,13 @@ public class NoticeContainerFragment extends Fragment {
 
                 ArrayList<Noticia> noticias = new ArrayList<Noticia>();
 
-                noticias.add(new Noticia("Noticia 1"));
-                noticias.add(new Noticia("Noticia 2"));
-                noticias.add(new Noticia("Noticia 3"));
+                for (int i = 1; i <= 7; i++) {
+                    Bitmap imagen = BitmapFactory.decodeResource(getContext().getResources(), ((int) (Math.random()*2)) == 1 ? R.drawable.noticias : R.drawable.detalle_noticia);
+                    DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss");
+                    String date = df.format(Calendar.getInstance().getTime());
+                    Noticia noticia = new Noticia(imagen,"Noticia "+i,"ID: "+i,date,"Detalle de la noticia "+i);
+                    noticias.add(noticia);
+                }
 
                 noticeFragment.setNoticias(noticias);
 

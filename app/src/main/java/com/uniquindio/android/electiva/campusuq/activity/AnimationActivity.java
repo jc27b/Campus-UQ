@@ -12,13 +12,13 @@ import com.uniquindio.android.electiva.campusuq.R;
 
 public class AnimationActivity extends AppCompatActivity {
 
-    public static Activity fa;
+    public static Activity firstActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animation);
-        fa = this;
+        firstActivity = this;
         final ImageView image = (ImageView)findViewById(R.id.imageView);
         Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
         image.startAnimation(animation1);

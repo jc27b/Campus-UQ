@@ -1,21 +1,16 @@
 package com.uniquindio.android.electiva.campusuq.vo;
 
 
-import android.graphics.drawable.Drawable;
-
 public class Contacto {
 
-    private Drawable imagen;
     private String nombre;
     private String telefono;
     private String extension;
 
-    public Drawable getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(Drawable imagen) {
-        this.imagen = imagen;
+    public Contacto(String nombre, String telefono, String extension) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.extension = extension;
     }
 
     public String getNombre() {

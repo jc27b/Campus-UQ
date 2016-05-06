@@ -35,6 +35,7 @@ import com.uniquindio.android.electiva.campusuq.fragments.NoticeDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeFragment;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeContacto;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDePagerFragment;
+import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 
 public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener, DirectoryFragment.OnDependenciaSeleccionadaListener, DirectoryDetailFragment.OnContactoSeleccionadoListener {
@@ -57,9 +58,12 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Utilidades.obtenerLenguaje(this);
+
         setContentView(R.layout.activity_main);
 
-        AnimationActivity.fa.finish();
+        AnimationActivity.firstActivity.finish();
 
         if (savedInstanceState == null) {
             posicionNoticia = 0;
@@ -242,22 +246,18 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         int id = item.getItemId();
 
         if (id == R.id.menu_iniciar_sesion) {
-            Intent intent = new Intent(this, OptionActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString(ACTIVITY_OPTION_TYPE, "Iniciar Sesión");
-            intent.putExtras(bundle);
-            startActivity(intent);
+            Utilidades.mostrarDialigoAgregarPelicula(getSupportFragmentManager(), MainActivity.class.getSimpleName());
         }
         if (id == R.id.menu_ir_a_pagina_universidad) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.uniquindio.edu.co/"));
             startActivity(intent);
         }
         if (id == R.id.menu_cambiar_idioma) {
-            Intent intent = new Intent(this, OptionActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString(ACTIVITY_OPTION_TYPE, "Cambiar Idioma");
-            intent.putExtras(bundle);
+            Utilidades.cambiarIdioma(getBaseContext());
+            Intent intent = getIntent();
+            finish();
             startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);

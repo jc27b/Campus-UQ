@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +19,15 @@ import com.uniquindio.android.electiva.campusuq.vo.Noticia;
  */
 public class NoticeDetailFragment extends Fragment {
 
+    private ImageView imagen;
     private TextView titulo;
+    private TextView id;
+    private TextView fecha;
+    private TextView detalle;
+
     private Noticia noticia;
-    private Button btnCompartirFacebook;
-    private Button btnCompartirTwitter;
+    private android.support.design.widget.FloatingActionButton btnCompartirFacebook;
+    private android.support.design.widget.FloatingActionButton btnCompartirTwitter;
 
 
     public NoticeDetailFragment() {
@@ -42,16 +47,24 @@ public class NoticeDetailFragment extends Fragment {
 
     public void mostrarNoticia (Noticia noticia) {
         this.noticia = noticia;
+        imagen = (ImageView) getView().findViewById(R.id.imagen_detalle);
+        imagen.setImageBitmap(noticia.getImagen());
         titulo = (TextView) getView().findViewById(R.id.titulo_de_detalle_noticia);
         titulo.setText(noticia.getTitulo());
-        btnCompartirFacebook = (Button) getView().findViewById(R.id.btn_compartir_facebook);
+        id = (TextView) getView().findViewById(R.id.id_de_detalle_noticia);
+        id.setText(noticia.getId());
+        fecha = (TextView) getView().findViewById(R.id.fecha_de_detalle_noticia);
+        fecha.setText(noticia.getFecha());
+        detalle = (TextView) getView().findViewById(R.id.descripcion_de_detalle_noticia);
+        detalle.setText(noticia.getDescripcion());
+        btnCompartirFacebook = (android.support.design.widget.FloatingActionButton) getView().findViewById(R.id.btn_compartir_facebook);
         btnCompartirFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Se ha compartido la noticia en Facebook", Toast.LENGTH_SHORT).show();
             }
         });
-        btnCompartirTwitter = (Button) getView().findViewById(R.id.btn_compartir_twitter);
+        btnCompartirTwitter = (android.support.design.widget.FloatingActionButton) getView().findViewById(R.id.btn_compartir_twitter);
         btnCompartirTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
