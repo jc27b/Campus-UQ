@@ -92,21 +92,27 @@ public class DirectoryContainerFragment extends Fragment {
 
                 for (int i = 1; i <= 5; i++) {
                     Bitmap imagen = null;
+                    String nombre = "Dependencia "+i;
                     switch (i) {
                         case 1:
                             imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.rectoria);
+                            nombre = "Rectoría";
                             break;
                         case 2:
                             imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vacad);
+                            nombre = "Vicerrectoría Académica";
                             break;
                         case 3:
                             imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vadmin);
+                            nombre = "Vicerrectoría Administrativa";
                             break;
                         case 4:
                             imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vextydessocial);
+                            nombre = "Vicerrectoría de Extensión y Desarrollo Social";
                             break;
                         case 5:
                             imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vinvestigaciones);
+                            nombre = "Vicerrectoría de Investigaciones";
                             break;
                     }
 
@@ -115,7 +121,7 @@ public class DirectoryContainerFragment extends Fragment {
                         Contacto contacto = new Contacto("Contacto "+j+" de la Dependencia "+i,"735930"+(i*j),"364-925-7"+i+""+j);
                         contactos.add(contacto);
                     }
-                    Dependencia dependencia = new Dependencia(imagen,"Dependencia "+i,contactos);
+                    Dependencia dependencia = new Dependencia(imagen,nombre,contactos);
                     directorio.add(dependencia);
                 }
 
