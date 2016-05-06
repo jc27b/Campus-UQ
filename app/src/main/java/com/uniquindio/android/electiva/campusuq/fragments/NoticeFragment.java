@@ -19,7 +19,9 @@ import com.uniquindio.android.electiva.campusuq.vo.Noticia;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento que se encargará de mostrar un listado de noticias.
+ * Declara una interfaz para asegurar que la actividad tenga como compartir
+ * la informacion con otro fragmento.
  */
 public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnClickAdaptadorDeNoticia {
 
@@ -28,16 +30,33 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
     private AdaptadorDeNoticia adaptador;
     private OnNoticiaSeleccionadaListener listener;
 
+    /**
+     * Constructor del fragmento que mostrará
+     * la lista de noticias.
+     */
     public NoticeFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Metodo llamado cuando se crea el fragmento,
+     * llama al método de la superclase
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
+    /**
+     * Metodo que se encarga de crear la vista que utilizara
+     * el fragmento, por medio del metodo inflate.
+     * @param inflater Encargado de poner la vista en el fragmento.
+     * @param container Jerarquia de vistas de la actividad.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     * @return Vista creada para el fragmento.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -47,6 +66,13 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
 
     }
 
+    /**
+     * Metodo llamado cuando la actividad se termina de crear,
+     * inicializa la vista RecyclerView, un adaptador para la lista,
+     * setea el adaptador y finalmente configura la forma en que se
+     * mostrara la lista con el LayoutManager.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -62,10 +88,21 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
 
     }
 
+    /**
+     * Método para obtener el adaptador de la lista de noticias.
+     * @return Adaptador de la lista de noticias.
+     */
     public AdaptadorDeNoticia getAdaptador() {
         return adaptador;
     }
 
+    /**
+     * Metodo llamado cuando se va a agregar el fragmento dentro
+     * de la actividad, es utilizado en este caso para confirmar que
+     * la actividad implemente una interfaz para pasar datos
+     * a otro fragmento.
+     * @param context Actividad del fragmento.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -84,19 +121,38 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
 
     }
 
+    /**
+     * Método que será llamado cuando se presiona un item
+     * de la lista de noticias, el cual notificará a la
+     * actividad esta acción y ésta tomará las medidas
+     * correspondientes.
+     * @param pos Posición en la lista de noticias.
+     */
     @Override
     public void onClickPosition(int pos) {
         listener.onNoticiaSeleccionada(pos);
     }
 
+    /**
+     * Interfaz que sera implementada por la actividad para
+     * compartir datos con otro fragmento.
+     */
     public interface OnNoticiaSeleccionadaListener {
         void onNoticiaSeleccionada(int position);
     }
 
+    /**
+     * Método para asignar una lista de noticias.
+     * @param noticias Lista de noticias.
+     */
     public void setNoticias(ArrayList<Noticia> noticias) {
         this.noticias = noticias;
     }
 
+    /**
+     * Método para obtener una lista de noticias.
+     * @return Lista de noticias.
+     */
     public ArrayList<Noticia> getNoticias() {
         return noticias;
     }

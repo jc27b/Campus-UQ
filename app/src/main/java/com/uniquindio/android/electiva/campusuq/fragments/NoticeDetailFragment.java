@@ -15,7 +15,8 @@ import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.vo.Noticia;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento que se encargará de mostrar el detalle de
+ * una noticia cuando esta es seleccionada en otro fragmento.
  */
 public class NoticeDetailFragment extends Fragment {
 
@@ -29,22 +30,44 @@ public class NoticeDetailFragment extends Fragment {
     private android.support.design.widget.FloatingActionButton btnCompartirFacebook;
     private android.support.design.widget.FloatingActionButton btnCompartirTwitter;
 
-
+    /**
+     * Constructor del fragmento que mostrará
+     * el detalle de una noticia.
+     */
     public NoticeDetailFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Método llamado cuando se crea el fragmento.
+     * Llama al mismo de la superclase.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Metodo que se encarga de crear la vista que utilizara
+     * el fragmento, por medio del metodo inflate.
+     * @param inflater Encargado de poner la vista en el fragmento.
+     * @param container Jerarquia de vistas de la actividad.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     * @return Vista creada para el fragmento.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_notice_detail, container, false);
     }
 
+    /**
+     * Metodo llamado desde la actividad principal
+     * para poner a los controles del fragmento los datos de
+     * la noticia que fue seleccionada.
+     * @param noticia Noticia seleccionada.
+     */
     public void mostrarNoticia (Noticia noticia) {
         this.noticia = noticia;
         imagen = (ImageView) getView().findViewById(R.id.imagen_detalle);
@@ -61,14 +84,14 @@ public class NoticeDetailFragment extends Fragment {
         btnCompartirFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Se ha compartido la noticia en Facebook", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.compartida_facebook), Toast.LENGTH_SHORT).show();
             }
         });
         btnCompartirTwitter = (android.support.design.widget.FloatingActionButton) getView().findViewById(R.id.btn_compartir_twitter);
         btnCompartirTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Se ha compartido la noticia en Twitter", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.compartida_twitter), Toast.LENGTH_SHORT).show();
             }
         });
     }

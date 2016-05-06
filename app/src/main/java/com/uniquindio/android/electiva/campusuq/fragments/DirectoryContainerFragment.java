@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
@@ -18,17 +20,25 @@ import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento de la página de directorio en el viewpager,
+ * que contendrá fragmentos de directorio y su detalle.
  */
 public class DirectoryContainerFragment extends Fragment {
 
     public final Handler handler = new Handler();
     public Runnable runPager;
 
+    /**
+     * Constructor vacío para instanciar el fragmento.
+     */
     public DirectoryContainerFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Creador de una nueva instancia del fragmento.
+     * @return Nueva instancia del fragmento.
+     */
     public static DirectoryContainerFragment newContainerInstance() {
 
         DirectoryContainerFragment fragment = new DirectoryContainerFragment();
@@ -37,16 +47,39 @@ public class DirectoryContainerFragment extends Fragment {
 
     }
 
-
+    /**
+     * Método llamado cuando se crea el fragmento.
+     * Llama a otro callback de la superclase.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
     }
 
+    /**
+     * Método que configura la vista que utilizará el fragmento. Asigna un
+     * listener al botón de actualizar y configura una lista de datos
+     * (dependencias y contactos que será mostrada por los fragmentos
+     * que contiene, éstos son añadidos de acuerdo a la configuración
+     * actual del dispositivo.
+     * @param inflater Objeto para inflar la vista del fragmento.
+     * @param container Grupo de vistas padre en el que se inserta la vista.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     * @return Vista del fragmento.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_directory_container, container, false);
+
+        ImageButton imageButton = (ImageButton) vista.findViewById(R.id.btn_update);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), getResources().getString(R.string.directorio_actualizado), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         runPager = new Runnable() {
 
@@ -107,7 +140,11 @@ public class DirectoryContainerFragment extends Fragment {
         return vista;
     }
 
-
+    /**
+     * Método llamado cuando se pausa el fragmento.
+     * Se encarga de quitar los callbacks que
+     * tiene el hilo.
+     */
     @Override
     public void onPause()
     {

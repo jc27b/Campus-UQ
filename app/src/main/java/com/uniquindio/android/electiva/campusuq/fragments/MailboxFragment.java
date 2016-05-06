@@ -16,14 +16,26 @@ import com.uniquindio.android.electiva.campusuq.R;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento que será utilizado para mostrar
+ * el buzón de sugerencias, el cual permite ver
+ * las sugerencias que ha propuesto el usuario
+ * y el estado en que se encuentran.
  */
 public class MailboxFragment extends Fragment {
 
+    /**
+     * Constructor por defecto del fragmento
+     * el cual es necesario que sea publico
+     * y vacio para instanciarlo
+     */
     public MailboxFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Metodo que permite crear una instacia del fragmento.
+     * @return Instancia del fragmento que será utilizada en el view pager según el adaptador.
+     */
     public static MailboxFragment newInstance() {
 
         MailboxFragment fragment = new MailboxFragment();
@@ -32,11 +44,26 @@ public class MailboxFragment extends Fragment {
 
     }
 
+    /**
+     * Metodo llamado cuando se crea el fragmento,
+     * llama a otro callback de la superclase.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
+    /**
+     * Método que crea la vista que utilizará el fragmento,
+     * ésta es alterada programáticamente para agregar
+     * una lista de sugerencias al grid layout con sus
+     * respectivos checkbox que indican el estado.
+     * @param inflater Objeto que permitirá inflar la vista para el fragmento
+     * @param container Contenedor según la jerarquía de vistas de la actividad
+     * @param savedInstanceState Instancia guardada para restaurar los datos
+     * @return Vista que usará el fragmento
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_mailbox, container, false);

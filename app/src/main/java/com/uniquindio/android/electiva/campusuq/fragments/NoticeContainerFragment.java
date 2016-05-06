@@ -20,17 +20,25 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento de la página de noticias en el viewpager,
+ * que contendrá fragmentos de noticia y su detalle.
  */
 public class NoticeContainerFragment extends Fragment {
 
     public final Handler handler = new Handler();
     public Runnable runPager;
 
+    /**
+     * Constructor vacío para instanciar el fragmento.
+     */
     public NoticeContainerFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Creador de una nueva instancia del fragmento.
+     * @return Nueva instancia del fragmento.
+     */
     public static NoticeContainerFragment newContainerInstance() {
 
         NoticeContainerFragment fragment = new NoticeContainerFragment();
@@ -39,13 +47,27 @@ public class NoticeContainerFragment extends Fragment {
 
     }
 
-
+    /**
+     * Método llamado cuando se crea el fragmento.
+     * Llama a otro callback de la superclase.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
     }
 
+    /**
+     * Método que configura la vista que utilizará el fragmento. Configura
+     * una lista de noticias que será mostrada por los fragmentos
+     * que contiene, éstos son añadidos de acuerdo a la configuración
+     * actual del dispositivo.
+     * @param inflater Objeto para inflar la vista del fragmento.
+     * @param container Grupo de vistas padre en el que se inserta la vista.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     * @return Vista del fragmento.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_notice_container, container, false);
@@ -89,7 +111,11 @@ public class NoticeContainerFragment extends Fragment {
         return vista;
     }
 
-
+    /**
+     * Método llamado cuando se pausa el fragmento.
+     * Se encarga de quitar los callbacks que
+     * tiene el hilo.
+     */
     @Override
     public void onPause()
     {
