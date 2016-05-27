@@ -1,8 +1,6 @@
 package com.uniquindio.android.electiva.campusuq.vo;
 
 
-import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 
 /**
@@ -12,7 +10,8 @@ import java.util.ArrayList;
  */
 public class Dependencia {
 
-    private Bitmap imagen;
+    private String _id;
+    private String imagen;
     private String nombre;
     private ArrayList<Contacto> contactos;
 
@@ -23,17 +22,48 @@ public class Dependencia {
      * @param nombre Nombre de la dependencia.
      * @param contactos Contactos de la dependencia.
      */
-    public Dependencia(Bitmap imagen, String nombre, ArrayList<Contacto> contactos) {
+    public Dependencia(String imagen, String nombre, ArrayList<Contacto> contactos) {
         this.imagen = imagen;
         this.nombre = nombre;
         this.contactos = contactos;
     }
 
     /**
+     * Constructor personalizado de la dependencia,
+     * que inicializa sus atributos.
+     * @param _id Id de la dependencia;
+     * @param imagen Imágen de la dependencia.
+     * @param nombre Nombre de la dependencia.
+     * @param contactos Contactos de la dependencia.
+     */
+    public Dependencia(String _id, String imagen, String nombre, ArrayList<Contacto> contactos) {
+        this._id = _id;
+        this.imagen = imagen;
+        this.nombre = nombre;
+        this.contactos = contactos;
+    }
+
+    /**
+     * Método para obtener la id de la dependencia.
+     * @return Id de la dependencia.
+     */
+    public String get_id() {
+        return _id;
+    }
+
+    /**
+     * Método para asignarle id a la dependencia.
+     * @param _id Id de la dependencia.
+     */
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    /**
      * Método para obtener la imágen de la dependencia.
      * @return Imágen de la dependencia.
      */
-    public Bitmap getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
@@ -41,7 +71,7 @@ public class Dependencia {
      * Método para asignarle imágen a la dependencia.
      * @param imagen Imágen de la dependencia.
      */
-    public void setImagen(Bitmap imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 

@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.fragments.LoginFragment;
+import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
 import java.util.Locale;
 
@@ -21,6 +25,19 @@ public class Utilidades {
     public final static String LENGUAJE_DE_PREFERENCIA = "languaje_preferences";
     public final static String LENGUAJE_ES = "es";
     public final static String LENGUAJE_EN = "en";
+
+    public final static String URL_SERVICIO_DEPENDENCIA = "http://campusuq-jc27b.rhcloud.com/dependencia";
+    public static final int LISTAR_DEPENDENCIAS = 1;
+    public static final int AGREGAR_PELICULA= 2;
+    public static final int MODIFICAR_PELICULA = 3;
+    public static final int ELIMINAR_PELICULA = 4;
+
+    public static final String NOMBRE_BD = "Campus_UQ";
+    public static final String NOMBRE_TABLA_CONTACTO = "Contacto";
+    public static final String CAMPOS_TABLA_CONTACTO[] = new String[]{"_ID", "DEPENDENCIA", "NOMBRE", "TELEFONO", "EXTENSION"};
+    public static final String NOMBRE_TABLA_DEPENDENCIA = "Dependencia";
+    public static final String CAMPOS_TABLA_DEPENDENCIA[] = new String[]{"_ID","IMAGEN", "NOMBRE"};
+
 
     /**
      * Es el encargado de mostrar el dialogo por medio del cual se va a iniciar sesión
@@ -80,5 +97,45 @@ public class Utilidades {
         context.getApplicationContext().getResources().updateConfiguration(config, null);
 
     }
+
+    /**
+     * Se encarga de converir un String formato JSON a una Película
+     * @param jsonDependencia string en formato JSON
+     * @return pelicula resultante de la conversión
+     */
+    public static Dependencia convertirJSONADependencia(String jsonDependencia)
+    {
+        Gson gson = new Gson();
+        Dependencia dependencia = gson.fromJson(jsonDependencia, Dependencia.class);
+        return dependencia;
+    }
+
+    /**
+     * Se encarga de convertir una pelicula en un JSON
+     * @param dependencia pelicula que se desea transformar
+     * @return cadena en formato de json de pélicula
+     */
+    public static String convertirDependenciaAJSON(Dependencia dependencia) {
+        Gson gson = new Gson();
+        String json = gson.toJson(dependencia);
+        return json;
+    }
+
+    /**
+     * Se encarga de mostrar un mensaje en pantalla
+     * @param mensaje mensaje que se quiere enseñar
+     */
+    public static void mostrarMensaje(String mensaje, Context context){
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Se encarga de mostrar un mensaje por consola
+     * @param mensaje mensaje a mostrar
+     */
+    public static void mostrarMensajeConsola(String mensaje) {
+        Log.v("", mensaje);
+    }
+
 
 }

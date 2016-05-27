@@ -7,6 +7,8 @@ package com.uniquindio.android.electiva.campusuq.vo;
  */
 public class Contacto {
 
+    private String _id;
+    private String dependencia;
     private String nombre;
     private String telefono;
     private String extension;
@@ -22,6 +24,55 @@ public class Contacto {
         this.nombre = nombre;
         this.telefono = telefono;
         this.extension = extension;
+    }
+
+    /**
+     * Constructor personalizado del contacto,
+     * que inicializa sus atributos.
+     * @param _id Id del contacto.
+     * @param dependencia Dependencia del contacto.
+     * @param nombre Nombre del contacto.
+     * @param telefono Teléfono del contacto.
+     * @param extension Extensión del contacto.
+     */
+    public Contacto(String _id, String dependencia,String nombre, String telefono, String extension) {
+        this._id = _id;
+        this.dependencia = dependencia;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.extension = extension;
+    }
+
+    /**
+     * Método para obtener la id del contacto.
+     * @return Id del contacto.
+     */
+    public String get_id() {
+        return _id;
+    }
+
+    /**
+     * Método para asignarle id al contacto.
+     * @param _id Id del contacto.
+     */
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    /**
+     * Método para obtener la dependencia del contacto.
+     * @return Dependencia del contacto.
+     */
+    public String getDependencia() {
+        return dependencia;
+    }
+
+    /**
+     * Método para asignarle dependencia al contacto.
+     * @param dependencia Dependencia el contacto.
+     */
+    public void setDependencia(String dependencia) {
+        this.dependencia = dependencia;
     }
 
     /**
@@ -71,4 +122,5 @@ public class Contacto {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
 }

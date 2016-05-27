@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,11 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +30,8 @@ public class DirectoryContainerFragment extends Fragment {
 
     public final Handler handler = new Handler();
     public Runnable runPager;
+
+    public static String IMAGEN;
 
     /**
      * Constructor vacío para instanciar el fragmento.
@@ -93,6 +98,7 @@ public class DirectoryContainerFragment extends Fragment {
                 for (int i = 1; i <= 5; i++) {
                     Bitmap imagen = null;
                     String nombre = "Dependencia "+i;
+                    /*
                     switch (i) {
                         case 1:
                             imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.rectoria);
@@ -115,13 +121,27 @@ public class DirectoryContainerFragment extends Fragment {
                             nombre = "Vicerrectoría de Investigaciones";
                             break;
                     }
+                    */
 
                     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
                     for (int j = 1; j <= 7; j++) {
                         Contacto contacto = new Contacto("Contacto "+j+" de la Dependencia "+i,"735930"+(i*j),"364-925-7"+i+""+j);
                         contactos.add(contacto);
                     }
-                    Dependencia dependencia = new Dependencia(imagen,nombre,contactos);
+
+                    imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.logo);
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    imagen.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    String imageString = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+
+                    if (i == 1) {
+                        IMAGEN = imageString;
+                        Utilidades.mostrarMensajeConsola(imageString);
+                    }
+
+                    Dependencia dependencia = new Dependencia(imageString, nombre, contactos);
                     directorio.add(dependencia);
                 }
 
@@ -157,5 +177,6 @@ public class DirectoryContainerFragment extends Fragment {
         super.onPause();
         handler.removeCallbacks(runPager);
     }
+
 
 }

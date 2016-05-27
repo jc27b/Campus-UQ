@@ -44,4 +44,7 @@
 
     <string name="no_connection">There\'s no internet connection</string>
 
+    <string name="cargando_directorio">Loading Directory</string>
+    <string name="espere">Please wait</string>
+
 </resources>

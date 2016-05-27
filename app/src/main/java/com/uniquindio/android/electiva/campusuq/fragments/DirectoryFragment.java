@@ -2,7 +2,9 @@ package com.uniquindio.android.electiva.campusuq.fragments;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,10 @@ import android.view.ViewGroup;
 
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeDependencia;
+import com.uniquindio.android.electiva.campusuq.util.CRUD;
+import com.uniquindio.android.electiva.campusuq.util.CRUDSQL;
+import com.uniquindio.android.electiva.campusuq.util.Utilidades;
+import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
 import java.util.ArrayList;
@@ -29,6 +35,9 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
     private ArrayList<Dependencia> directorio;
     private AdaptadorDeDependencia adaptador;
     private OnDependenciaSeleccionadaListener listener;
+
+    public DirectoryFragment directoryFragment;
+    private CRUDSQL crudsql;
 
     /**
      * Constructor del fragmento que mostrará
@@ -46,6 +55,8 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        directoryFragment = this;
 
     }
 
@@ -79,12 +90,17 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
 
         listadoDeDependencias = (RecyclerView) getView().findViewById(R.id.RecView2);
 
-        adaptador = new AdaptadorDeDependencia(directorio, this);
+        crudsql = new CRUDSQL(getActivity(), 1);
+        setDirectorio(crudsql.getDependencias());
 
-        listadoDeDependencias.setAdapter(adaptador);
-
-        listadoDeDependencias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
+        if (directorio.size() == 0) {
+            HiloSecundarioDependencia hiloSecundario = new HiloSecundarioDependencia(this.getContext());
+            hiloSecundario.execute(Utilidades.LISTAR_DEPENDENCIAS);
+        } else {
+            adaptador = new AdaptadorDeDependencia(directorio, this);
+            listadoDeDependencias.setAdapter(adaptador);
+            listadoDeDependencias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        }
 
     }
 
@@ -155,6 +171,137 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
      */
     public ArrayList<Dependencia> getDirectorio() {
         return directorio;
+    }
+
+    /**
+     * Clase que implementa un hilo secundario para realizar
+     * operaciones con con servicios.
+     */
+    public class HiloSecundarioDependencia extends AsyncTask<Integer, Integer, Integer> {
+
+        private ProgressDialog progress;
+        private Context context;
+        private Dependencia dependencia;
+
+        /**
+         * Constructor del hilo secundario, que
+         * inicializa el contexto y la pelicula.
+         * @param context Contexto de la aplicación.
+         */
+        public HiloSecundarioDependencia(Context context) {
+            this.context = context;
+            dependencia = null;
+        }
+
+        /**
+         * Metodo ejecutado antes de que
+         * se ejecute el hilo, muestra un
+         * mensaje informativo.
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = ProgressDialog.show(context, context.getString(R.string.cargando_directorio), context.getString(R.string.espere), true);
+        }
+
+        /**
+         * Metodo que se ejecuta en el hilo secundario,
+         * el cual permite listar las películas y
+         * tambien agregarlas.
+         * @param params Operación a realizar.
+         * @return Operación realizada.
+         */
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            if (params[0] == Utilidades.LISTAR_DEPENDENCIAS) {
+                setDirectorio(CRUD.getListaDeDependencias());
+            }
+            /**
+             else if (params[0] == Utilidades.AGREGAR_PELICULA){
+             String peliculaJSON = Utilidades.convertirPeliculaAJSON(pelicula);
+             pelicula = CRUD.agregarPeliculaAlServicio(peliculaJSON);
+             }
+             else if (params[0] == Utilidades.ELIMINAR_PELICULA) {
+             String idPelicula = pelicula.getId();
+             pelicula = CRUD.eliminarPeliculaDelServicio(idPelicula);
+             }
+             */
+
+            return params[0];
+        }
+
+        /**
+         * Metodo ejecutado después de que
+         * el hilo finalizó su ejecución.
+         * Pone el los controles gráficos
+         * la información extraída del servicio.
+         * @param integer Operación a realizar.
+         */
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+            if (integer == Utilidades.LISTAR_DEPENDENCIAS) {
+                if (adaptador == null) {
+                    adaptador = new AdaptadorDeDependencia(directorio, directoryFragment);
+                    listadoDeDependencias.setAdapter(adaptador);
+                    listadoDeDependencias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                }
+
+                for (Dependencia dependencia: directorio) {
+                    for (Contacto contacto: dependencia.getContactos()) {
+                        crudsql.insertarContacto(dependencia.getNombre(), contacto.getNombre(), contacto.getTelefono(), contacto.getExtension());
+                    }
+                    crudsql.insertarDependencia(dependencia.getImagen(), dependencia.getNombre());
+                }
+
+            }
+
+            // ***
+            // Ojo para actualizar se elimina lo que hay en la base de datos
+            // ***
+
+            /**
+             else if (integer == Utilidades.AGREGAR_PELICULA) {
+             if (pelicula != null) {
+             peliculas.add(position, pelicula);
+             adaptador.notifyItemInserted(position);
+             pelicula = null;
+             }
+             else {
+             Utilidades.mostrarMensaje(Utilidades.NO_SE_AGREGO_LA_PELICULA, getContext());
+             }
+             }
+             else if (integer == Utilidades.ELIMINAR_PELICULA){
+             if (pelicula != null) {
+             peliculas.remove(position);
+             adaptador.notifyItemRemoved(position);
+             pelicula = null;
+             } else {
+             Utilidades.mostrarMensaje(Utilidades.NO_SE_ELIMINO_LA_PELICULA, getContext());
+             }
+             }
+             */
+
+            progress.dismiss();
+        }
+
+        /**
+         * Permite obtener la dependencia del hilo.
+         * @return Dependencia del hilo.
+         */
+        public Dependencia getDependencia() {
+            return dependencia;
+        }
+
+        /**
+         * Permite establecer la dependencia del hilo.
+         * @param dependencia Dependencia a establecer.
+         */
+        public void setPelicula(Dependencia dependencia) {
+            this.dependencia = dependencia;
+        }
+
     }
 
 

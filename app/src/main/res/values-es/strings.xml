@@ -44,4 +44,7 @@
 
     <string name="no_connection">No hay conexión a internet</string>
 
+    <string name="cargando_directorio">Cargando Directorio</string>
+    <string name="espere">Espere por favor</string>
+
 </resources>
