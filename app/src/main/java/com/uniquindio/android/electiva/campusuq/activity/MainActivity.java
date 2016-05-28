@@ -30,12 +30,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.fragments.DirectoryContainerFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeFragment;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeContacto;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDePagerFragment;
+import com.uniquindio.android.electiva.campusuq.util.CustomViewPager;
 import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     private IntentFilter intentFilter;
 
     private ViewGroup actionToolBar;
+
+    private CustomViewPager viewPager;
 
     /**
      * Método llamado cuando se crea la instancia. Se encarga de finalizar
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
         AdaptadorDePagerFragment adapter = new AdaptadorDePagerFragment(getSupportFragmentManager(), getBaseContext());
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (CustomViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -147,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
                 fm.popBackStack();
             }
         }
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        CustomViewPager viewPager = (CustomViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new AdaptadorDePagerFragment(getSupportFragmentManager(), getBaseContext()));
         viewPager.setCurrentItem(lastItemSelected);
         final Handler handler = new Handler();
@@ -340,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
      * @param context Contexto de la aplicación.
      * @return Hay conexión o no.
      */
-    public boolean haveNetworkConnection(Context context) {
+    public static boolean haveNetworkConnection(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         boolean isConnected = netInfo != null && netInfo.isConnected();
@@ -375,22 +379,19 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
                 Log.d("ConnectivityReceiver", "action -> " + intent.getAction());
                 Log.d("HaveNetworkConnection", ""+haveNetworkConnection(context));
                 TextView textView = (TextView) findViewById(R.id.text_no_connection);
-                //TabLayout tabLayout = (TabLayout) actionToolBar.findViewById(R.id.tab_layout);
+                CustomViewPager viewPager = (CustomViewPager) findViewById(R.id.viewpager);
                 if (!haveNetworkConnection(context)) {
                     textView.setVisibility(View.VISIBLE);
-                    /*
-                    LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
-                    tabStrip.getChildAt(0).setEnabled(false);
-                    tabStrip.getChildAt(2).setClickable(false);
-                    */
-
+                    viewPager.setPagingEnabled(false);
+                    viewPager.setCurrentItem(1);
+                    DirectoryContainerFragment page = (DirectoryContainerFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + viewPager.getCurrentItem());
+                    page.setImageButtonEnabled(false);
                 } else {
                     textView.setVisibility(View.GONE);
-                    /*
-                    LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
-                    tabStrip.getChildAt(0).setEnabled(true);
-                    tabStrip.getChildAt(2).setClickable(true);
-                    */
+                    viewPager.setPagingEnabled(true);
+                    viewPager.setCurrentItem(1);
+                    DirectoryContainerFragment page = (DirectoryContainerFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + viewPager.getCurrentItem());
+                    page.setImageButtonEnabled(true);
                 }
 
             }

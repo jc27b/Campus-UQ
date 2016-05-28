@@ -27,10 +27,10 @@ public class Utilidades {
     public final static String LENGUAJE_EN = "en";
 
     public final static String URL_SERVICIO_DEPENDENCIA = "http://campusuq-jc27b.rhcloud.com/dependencia";
+    public final static String URL_SERVICIO_NOTICIA = "http://campusuq-jc27b.rhcloud.com/noticia";
     public static final int LISTAR_DEPENDENCIAS = 1;
-    public static final int AGREGAR_PELICULA= 2;
-    public static final int MODIFICAR_PELICULA = 3;
-    public static final int ELIMINAR_PELICULA = 4;
+    public static final int MODIFICAR_DEPENDENCIA = 2;
+    public static final int LISTAR_NOTICIAS = 3;
 
     public static final String NOMBRE_BD = "Campus_UQ";
     public static final String NOMBRE_TABLA_CONTACTO = "Contacto";
@@ -134,7 +134,12 @@ public class Utilidades {
      * @param mensaje mensaje a mostrar
      */
     public static void mostrarMensajeConsola(String mensaje) {
-        Log.v("", mensaje);
+        if (mensaje.length() > 4000) {
+            Log.v(Utilidades.class.getSimpleName(), mensaje.substring(0, 4000));
+            mostrarMensajeConsola(mensaje.substring(4000));
+        } else {
+            Log.v(Utilidades.class.getSimpleName(), mensaje);
+        }
     }
 
 

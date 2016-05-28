@@ -1,9 +1,12 @@
 package com.uniquindio.android.electiva.campusuq.fragments;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,11 +74,16 @@ public class NoticeDetailFragment extends Fragment {
     public void mostrarNoticia (Noticia noticia) {
         this.noticia = noticia;
         imagen = (ImageView) getView().findViewById(R.id.imagen_detalle);
-        imagen.setImageBitmap(noticia.getImagen());
+
+        String imageString = noticia.getImagen();
+        byte[] byteArray = Base64.decode(imageString, Base64.NO_WRAP);
+        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        imagen.setImageBitmap(bmp);
+
         titulo = (TextView) getView().findViewById(R.id.titulo_de_detalle_noticia);
         titulo.setText(noticia.getTitulo());
         id = (TextView) getView().findViewById(R.id.id_de_detalle_noticia);
-        id.setText(noticia.getId());
+        id.setText(noticia.get_id());
         fecha = (TextView) getView().findViewById(R.id.fecha_de_detalle_noticia);
         fecha.setText(noticia.getFecha());
         detalle = (TextView) getView().findViewById(R.id.descripcion_de_detalle_noticia);

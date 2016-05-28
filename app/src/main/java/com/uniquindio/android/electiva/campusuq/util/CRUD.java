@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
+import com.uniquindio.android.electiva.campusuq.vo.Noticia;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -22,9 +23,13 @@ import cz.msebera.android.httpclient.util.EntityUtils;
  */
 public class CRUD {
 
+
+    // Dependencia
+
+
     /**
-     * Se encarga de consumir el listado de peliculas desde el servicio
-     * @return Las peliculas alojadas en el servicio
+     * Se encarga de consumir el listado de dependencias desde el servicio
+     * @return Las dependencias alojadas en el servicio
      */
     public static ArrayList<Dependencia> getListaDeDependencias(){
 
@@ -50,6 +55,40 @@ public class CRUD {
         }
 
         return dependencias;
+    }
+
+
+    // Noticia
+
+
+    /**
+     * Se encarga de consumir el listado de noticias desde el servicio
+     * @return Las noticias alojadas en el servicio
+     */
+    public static ArrayList<Noticia> getListaDeNoticias(){
+
+        ArrayList<Noticia> noticias = new ArrayList<>();
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(Utilidades.URL_SERVICIO_NOTICIA);
+        request.setHeader("content-type", "application/json");
+
+        try {
+
+            HttpResponse resp = httpClient.execute(request);
+            String respStr = EntityUtils.toString(resp.getEntity());
+
+            Gson gson = new Gson();
+            Type tipoListaFilms = new TypeToken<ArrayList<Noticia>>(){}.getType();
+
+            noticias = gson.fromJson(respStr, tipoListaFilms);
+
+        } catch (Exception e) {
+            Log.v(CRUD.class.getSimpleName(), e.getMessage());
+            return null;
+        }
+
+        return noticias;
     }
 
     /**

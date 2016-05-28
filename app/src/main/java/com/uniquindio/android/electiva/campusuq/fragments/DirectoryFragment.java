@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.activity.MainActivity;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeDependencia;
 import com.uniquindio.android.electiva.campusuq.util.CRUD;
 import com.uniquindio.android.electiva.campusuq.util.CRUDSQL;
@@ -93,7 +94,7 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
         crudsql = new CRUDSQL(getActivity(), 1);
         setDirectorio(crudsql.getDependencias());
 
-        if (directorio.size() == 0) {
+        if (directorio.size() == 0 && MainActivity.haveNetworkConnection(getContext())) {
             HiloSecundarioDependencia hiloSecundario = new HiloSecundarioDependencia(this.getContext());
             hiloSecundario.execute(Utilidades.LISTAR_DEPENDENCIAS);
         } else {
@@ -173,6 +174,17 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
         return directorio;
     }
 
+    public void actualizarDirectorio() {
+
+        for (Dependencia dependencia: directorio) {
+            crudsql.elimarDependencia(dependencia.get_id());
+        }
+
+        HiloSecundarioDependencia hiloSecundario = new HiloSecundarioDependencia(this.getContext());
+        hiloSecundario.execute(Utilidades.LISTAR_DEPENDENCIAS);
+
+    }
+
     /**
      * Clase que implementa un hilo secundario para realizar
      * operaciones con con servicios.
@@ -246,6 +258,8 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
                     adaptador = new AdaptadorDeDependencia(directorio, directoryFragment);
                     listadoDeDependencias.setAdapter(adaptador);
                     listadoDeDependencias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                } else {
+                    adaptador.intercambiar(directorio);
                 }
 
                 for (Dependencia dependencia: directorio) {
@@ -298,7 +312,7 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
          * Permite establecer la dependencia del hilo.
          * @param dependencia Dependencia a establecer.
          */
-        public void setPelicula(Dependencia dependencia) {
+        public void setDependencia(Dependencia dependencia) {
             this.dependencia = dependencia;
         }
 

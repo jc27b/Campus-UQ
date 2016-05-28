@@ -2,7 +2,9 @@ package com.uniquindio.android.electiva.campusuq.fragments;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.activity.MainActivity;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeNoticia;
+import com.uniquindio.android.electiva.campusuq.util.CRUD;
+import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Noticia;
 
 import java.util.ArrayList;
@@ -29,6 +34,8 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
     private ArrayList<Noticia> noticias;
     private AdaptadorDeNoticia adaptador;
     private OnNoticiaSeleccionadaListener listener;
+
+    public NoticeFragment noticeFragment;
 
     /**
      * Constructor del fragmento que mostrará
@@ -46,6 +53,8 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        noticeFragment = this;
 
     }
 
@@ -79,11 +88,14 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
 
         listadoDeNoticias = (RecyclerView) getView().findViewById(R.id.RecView);
 
-        adaptador = new AdaptadorDeNoticia(noticias, this);
-
-        listadoDeNoticias.setAdapter(adaptador);
-
-        listadoDeNoticias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        if (noticias.size() == 0 && MainActivity.haveNetworkConnection(getContext())) {
+            HiloSecundarioNoticia hiloSecundario = new HiloSecundarioNoticia(this.getContext());
+            hiloSecundario.execute(Utilidades.LISTAR_NOTICIAS);
+        } else {
+            adaptador = new AdaptadorDeNoticia(noticias, this);
+            listadoDeNoticias.setAdapter(adaptador);
+            listadoDeNoticias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        }
 
 
     }
@@ -157,5 +169,129 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
         return noticias;
     }
 
+
+    /**
+     * Clase que implementa un hilo secundario para realizar
+     * operaciones con con servicios.
+     */
+    public class HiloSecundarioNoticia extends AsyncTask<Integer, Integer, Integer> {
+
+        private ProgressDialog progress;
+        private Context context;
+        private Noticia noticia;
+
+        /**
+         * Constructor del hilo secundario, que
+         * inicializa el contexto y la pelicula.
+         * @param context Contexto de la aplicación.
+         */
+        public HiloSecundarioNoticia(Context context) {
+            this.context = context;
+            noticia = null;
+        }
+
+        /**
+         * Metodo ejecutado antes de que
+         * se ejecute el hilo, muestra un
+         * mensaje informativo.
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = ProgressDialog.show(context, context.getString(R.string.cargando_noticias), context.getString(R.string.espere), true);
+        }
+
+        /**
+         * Metodo que se ejecuta en el hilo secundario,
+         * el cual permite listar las películas y
+         * tambien agregarlas.
+         * @param params Operación a realizar.
+         * @return Operación realizada.
+         */
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            if (params[0] == Utilidades.LISTAR_NOTICIAS) {
+                setNoticias(CRUD.getListaDeNoticias());
+            }
+            /**
+             else if (params[0] == Utilidades.AGREGAR_PELICULA){
+             String peliculaJSON = Utilidades.convertirPeliculaAJSON(pelicula);
+             pelicula = CRUD.agregarPeliculaAlServicio(peliculaJSON);
+             }
+             else if (params[0] == Utilidades.ELIMINAR_PELICULA) {
+             String idPelicula = pelicula.getId();
+             pelicula = CRUD.eliminarPeliculaDelServicio(idPelicula);
+             }
+             */
+
+            return params[0];
+        }
+
+        /**
+         * Metodo ejecutado después de que
+         * el hilo finalizó su ejecución.
+         * Pone el los controles gráficos
+         * la información extraída del servicio.
+         * @param integer Operación a realizar.
+         */
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+            if (integer == Utilidades.LISTAR_NOTICIAS) {
+                if (adaptador == null) {
+                    adaptador = new AdaptadorDeNoticia(noticias, noticeFragment);
+                    listadoDeNoticias.setAdapter(adaptador);
+                    listadoDeNoticias.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                }
+
+            }
+
+            // ***
+            // Ojo para actualizar se elimina lo que hay en la base de datos
+            // ***
+
+            /**
+             else if (integer == Utilidades.AGREGAR_PELICULA) {
+             if (pelicula != null) {
+             peliculas.add(position, pelicula);
+             adaptador.notifyItemInserted(position);
+             pelicula = null;
+             }
+             else {
+             Utilidades.mostrarMensaje(Utilidades.NO_SE_AGREGO_LA_PELICULA, getContext());
+             }
+             }
+             else if (integer == Utilidades.ELIMINAR_PELICULA){
+             if (pelicula != null) {
+             peliculas.remove(position);
+             adaptador.notifyItemRemoved(position);
+             pelicula = null;
+             } else {
+             Utilidades.mostrarMensaje(Utilidades.NO_SE_ELIMINO_LA_PELICULA, getContext());
+             }
+             }
+             */
+
+            progress.dismiss();
+        }
+
+        /**
+         * Permite obtener la noticia del hilo.
+         * @return Noticia del hilo.
+         */
+        public Noticia getNoticia() {
+            return noticia;
+        }
+
+        /**
+         * Permite establecer la noticia del hilo.
+         * @param noticia Noticia a establecer.
+         */
+        public void setNoticia(Noticia noticia) {
+            this.noticia = noticia;
+        }
+
+    }
 
 }

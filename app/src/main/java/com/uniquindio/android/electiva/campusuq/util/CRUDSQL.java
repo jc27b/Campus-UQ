@@ -68,7 +68,7 @@ public class CRUDSQL {
         ejecutarConsulta(builder.toString());
     }
 
-    public void elimarPelicula(String idP) {
+    public void elimarContacto(String idP) {
         StringBuilder builder = new StringBuilder("DELETE FROM ? WHERE ?= '?'");
         builder.replace(builder.indexOf("?"), builder.indexOf("?") + 1, Utilidades.NOMBRE_TABLA_CONTACTO);
         builder.replace(builder.indexOf("?"), builder.indexOf("?") + 1, Utilidades.CAMPOS_TABLA_CONTACTO[0]);

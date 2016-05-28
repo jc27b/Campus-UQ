@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uniquindio.android.electiva.campusuq.R;
-import com.uniquindio.android.electiva.campusuq.fragments.DirectoryContainerFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryFragment;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
@@ -113,8 +112,7 @@ public class AdaptadorDeDependencia extends RecyclerView.Adapter<AdaptadorDeDepe
         public void binDependencia(Dependencia d) {
             txtNombre.setText(d.getNombre());
             String imageString = d.getImagen();
-            //byte[] byteArray = Base64.decode(imageString, Base64.NO_WRAP);
-            byte[] byteArray = Base64.decode(DirectoryContainerFragment.IMAGEN, Base64.NO_WRAP);
+            byte[] byteArray = Base64.decode(imageString, Base64.NO_WRAP);
             Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             imagen.setImageBitmap(bmp);
         }
@@ -140,6 +138,11 @@ public class AdaptadorDeDependencia extends RecyclerView.Adapter<AdaptadorDeDepe
         public void onClickPosition(int pos);
     }
 
+    public void intercambiar(ArrayList<Dependencia> dependencias){
+        this.directorio.clear();
+        this.directorio.addAll(dependencias);
+        notifyDataSetChanged();
+    }
 
 
 }

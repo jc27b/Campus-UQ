@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
-import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
@@ -31,7 +30,7 @@ public class DirectoryContainerFragment extends Fragment {
     public final Handler handler = new Handler();
     public Runnable runPager;
 
-    public static String IMAGEN;
+    private ImageButton imageButton;
 
     /**
      * Constructor vacío para instanciar el fragmento.
@@ -78,20 +77,22 @@ public class DirectoryContainerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_directory_container, container, false);
 
-        ImageButton imageButton = (ImageButton) vista.findViewById(R.id.btn_update);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), getResources().getString(R.string.directorio_actualizado), Toast.LENGTH_SHORT).show();
-            }
-        });
+        imageButton = (ImageButton) vista.findViewById(R.id.btn_update);
 
         runPager = new Runnable() {
 
             @Override
             public void run()
             {
-                DirectoryFragment directoryFragment = new DirectoryFragment();
+                final DirectoryFragment directoryFragment = new DirectoryFragment();
+
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        directoryFragment.actualizarDirectorio();
+                        Toast.makeText(getContext(), getResources().getString(R.string.directorio_actualizado), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 ArrayList<Dependencia> directorio = new ArrayList<Dependencia>();
 
@@ -136,11 +137,6 @@ public class DirectoryContainerFragment extends Fragment {
                     byte[] byteArray = stream.toByteArray();
                     String imageString = Base64.encodeToString(byteArray, Base64.NO_WRAP);
 
-                    if (i == 1) {
-                        IMAGEN = imageString;
-                        Utilidades.mostrarMensajeConsola(imageString);
-                    }
-
                     Dependencia dependencia = new Dependencia(imageString, nombre, contactos);
                     directorio.add(dependencia);
                 }
@@ -164,6 +160,10 @@ public class DirectoryContainerFragment extends Fragment {
         handler.post(runPager);
 
         return vista;
+    }
+
+    public void setImageButtonEnabled(boolean enabled) {
+        imageButton.setEnabled(enabled);
     }
 
     /**

@@ -1,7 +1,10 @@
 package com.uniquindio.android.electiva.campusuq.util;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +111,10 @@ public class AdaptadorDeNoticia extends RecyclerView.Adapter<AdaptadorDeNoticia.
          */
         public void binNoticia(Noticia n) {
             txtTitulo.setText(n.getTitulo());
-            imagen.setImageBitmap(n.getImagen());
+            String imageString = n.getImagen();
+            byte[] byteArray = Base64.decode(imageString, Base64.NO_WRAP);
+            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            imagen.setImageBitmap(bmp);
         }
 
         /**
