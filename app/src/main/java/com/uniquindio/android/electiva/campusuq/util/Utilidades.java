@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.fragments.LoginFragment;
-import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
+import com.uniquindio.android.electiva.campusuq.vo.Sugerencia;
 
 import java.util.Locale;
 
@@ -28,15 +28,20 @@ public class Utilidades {
 
     public final static String URL_SERVICIO_DEPENDENCIA = "http://campusuq-jc27b.rhcloud.com/dependencia";
     public final static String URL_SERVICIO_NOTICIA = "http://campusuq-jc27b.rhcloud.com/noticia";
+    public final static String URL_SERVICIO_SUGERENCIA = "http://campusuq-jc27b.rhcloud.com/sugerencia";
     public static final int LISTAR_DEPENDENCIAS = 1;
-    public static final int MODIFICAR_DEPENDENCIA = 2;
-    public static final int LISTAR_NOTICIAS = 3;
+    public static final int LISTAR_NOTICIAS = 2;
+    public static final int LISTAR_SUGERENCIAS = 3;
+    public static final int AGREGAR_SUGERENCIA = 4;
+    public static final String NO_SE_AGREGO_LA_SUGERENCIA = "No se logró agregar la sugerencia";
 
     public static final String NOMBRE_BD = "Campus_UQ";
     public static final String NOMBRE_TABLA_CONTACTO = "Contacto";
     public static final String CAMPOS_TABLA_CONTACTO[] = new String[]{"_ID", "DEPENDENCIA", "NOMBRE", "TELEFONO", "EXTENSION"};
     public static final String NOMBRE_TABLA_DEPENDENCIA = "Dependencia";
     public static final String CAMPOS_TABLA_DEPENDENCIA[] = new String[]{"_ID","IMAGEN", "NOMBRE"};
+    public static final String NOMBRE_TABLA_SUGERENCIA = "Sugerencia";
+    public static final String CAMPOS_TABLA_SUGERENCIA[] = new String[]{"_ID", "ASUNTO", "DETALLE", "IMAGEN", "ESTADO"};
 
 
     /**
@@ -99,25 +104,25 @@ public class Utilidades {
     }
 
     /**
-     * Se encarga de converir un String formato JSON a una Película
-     * @param jsonDependencia string en formato JSON
-     * @return pelicula resultante de la conversión
+     * Se encarga de converir un String formato JSON a una Sugerencia
+     * @param jsonSugerencia string en formato JSON
+     * @return sugerencia resultante de la conversión
      */
-    public static Dependencia convertirJSONADependencia(String jsonDependencia)
+    public static Sugerencia convertirJSONASugerencia(String jsonSugerencia)
     {
         Gson gson = new Gson();
-        Dependencia dependencia = gson.fromJson(jsonDependencia, Dependencia.class);
-        return dependencia;
+        Sugerencia sugerencia = gson.fromJson(jsonSugerencia, Sugerencia.class);
+        return sugerencia;
     }
 
     /**
-     * Se encarga de convertir una pelicula en un JSON
-     * @param dependencia pelicula que se desea transformar
-     * @return cadena en formato de json de pélicula
+     * Se encarga de convertir una sugerencia en un JSON
+     * @param sugerencia sugerencia que se desea transformar
+     * @return cadena en formato de json de sugerencia
      */
-    public static String convertirDependenciaAJSON(Dependencia dependencia) {
+    public static String convertirSugerenciaAJSON(Sugerencia sugerencia) {
         Gson gson = new Gson();
-        String json = gson.toJson(dependencia);
+        String json = gson.toJson(sugerencia);
         return json;
     }
 

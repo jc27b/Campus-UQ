@@ -176,6 +176,11 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
 
     public void actualizarDirectorio() {
 
+        ArrayList<Contacto> contactos = crudsql.getContactos();
+        for (Contacto contacto: contactos) {
+            crudsql.elimarContacto(contacto.get_id());
+        }
+
         for (Dependencia dependencia: directorio) {
             crudsql.elimarDependencia(dependencia.get_id());
         }
@@ -197,7 +202,7 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
 
         /**
          * Constructor del hilo secundario, que
-         * inicializa el contexto y la pelicula.
+         * inicializa el contexto y la dependencia.
          * @param context Contexto de la aplicación.
          */
         public HiloSecundarioDependencia(Context context) {
@@ -218,8 +223,7 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
 
         /**
          * Metodo que se ejecuta en el hilo secundario,
-         * el cual permite listar las películas y
-         * tambien agregarlas.
+         * el cual permite listar las dependencias.
          * @param params Operación a realizar.
          * @return Operación realizada.
          */
@@ -228,16 +232,6 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
             if (params[0] == Utilidades.LISTAR_DEPENDENCIAS) {
                 setDirectorio(CRUD.getListaDeDependencias());
             }
-            /**
-             else if (params[0] == Utilidades.AGREGAR_PELICULA){
-             String peliculaJSON = Utilidades.convertirPeliculaAJSON(pelicula);
-             pelicula = CRUD.agregarPeliculaAlServicio(peliculaJSON);
-             }
-             else if (params[0] == Utilidades.ELIMINAR_PELICULA) {
-             String idPelicula = pelicula.getId();
-             pelicula = CRUD.eliminarPeliculaDelServicio(idPelicula);
-             }
-             */
 
             return params[0];
         }
@@ -270,32 +264,6 @@ public class DirectoryFragment extends Fragment implements AdaptadorDeDependenci
                 }
 
             }
-
-            // ***
-            // Ojo para actualizar se elimina lo que hay en la base de datos
-            // ***
-
-            /**
-             else if (integer == Utilidades.AGREGAR_PELICULA) {
-             if (pelicula != null) {
-             peliculas.add(position, pelicula);
-             adaptador.notifyItemInserted(position);
-             pelicula = null;
-             }
-             else {
-             Utilidades.mostrarMensaje(Utilidades.NO_SE_AGREGO_LA_PELICULA, getContext());
-             }
-             }
-             else if (integer == Utilidades.ELIMINAR_PELICULA){
-             if (pelicula != null) {
-             peliculas.remove(position);
-             adaptador.notifyItemRemoved(position);
-             pelicula = null;
-             } else {
-             Utilidades.mostrarMensaje(Utilidades.NO_SE_ELIMINO_LA_PELICULA, getContext());
-             }
-             }
-             */
 
             progress.dismiss();
         }

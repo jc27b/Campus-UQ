@@ -62,6 +62,12 @@ public class DirectoryDetailFragment extends Fragment implements AdaptadorDeCont
         return inflater.inflate(R.layout.fragment_directory_detail, container, false);
     }
 
+    /**
+     * Método ejecutado cuando se crea la actividad.
+     * Se encarga de inicializar el recycler view y
+     * ponerle su respectivo adaptador.
+     * @param savedInstanceState Instancia guardada para restaurar los datos.
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

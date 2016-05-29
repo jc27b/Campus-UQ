@@ -427,9 +427,14 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         super.onDestroy();
     }
 
+    /**
+     * Método para que la aplicación soporte MultiDex.
+     * @param newBase Contexto de la aplicación.
+     */
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
         MultiDex.install(this);
     }
+
 }

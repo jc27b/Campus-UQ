@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 import com.uniquindio.android.electiva.campusuq.vo.Noticia;
+import com.uniquindio.android.electiva.campusuq.vo.Sugerencia;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
 import cz.msebera.android.httpclient.util.EntityUtils;
 
@@ -91,51 +94,64 @@ public class CRUD {
         return noticias;
     }
 
+
+    // Sugerencia
+
+
     /**
-     * Permite agregar una pelicula en el servicio
-     * @param jsonPelicula Json la pelicula que se desea agregar
-     * @return Pelicula agregada
+     * Se encarga de consumir el listado de sugerencias desde el servicio
+     * @return Las sugerencias alojadas en el servicio
      */
-    /**
-    public static Film agregarPeliculaAlServicio(String jsonPelicula) {
+    public static ArrayList<Sugerencia> getListaDeSugerencias(){
+
+        ArrayList<Sugerencia> sugerencias = new ArrayList<>();
+
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(Utilidades.URL_SERVICIO);
-        post.setHeader("content-type", "application/json");
-        Film pelicula = null;
+        HttpGet request = new HttpGet(Utilidades.URL_SERVICIO_SUGERENCIA);
+        request.setHeader("content-type", "application/json");
+
         try {
-            StringEntity entity = new StringEntity(jsonPelicula);
+
+            HttpResponse resp = httpClient.execute(request);
+            String respStr = EntityUtils.toString(resp.getEntity());
+
+            Gson gson = new Gson();
+            Type tipoListaFilms = new TypeToken<ArrayList<Sugerencia>>(){}.getType();
+
+            sugerencias = gson.fromJson(respStr, tipoListaFilms);
+
+        } catch (Exception e) {
+            Log.v(CRUD.class.getSimpleName(), e.getMessage());
+            return null;
+        }
+
+        return sugerencias;
+    }
+
+    /**
+     * Permite agregar una sugerencia en el servicio
+     * @param jsonSugerencia Json la sugerencia que se desea agregar
+     * @return Sugerencia agregada
+     */
+    public static Sugerencia agregarSugerenciaAlServicio(String jsonSugerencia) {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(Utilidades.URL_SERVICIO_SUGERENCIA);
+        post.setHeader("content-type", "application/json");
+        Sugerencia sugerencia = null;
+        try {
+            StringEntity entity = new StringEntity(jsonSugerencia);
             post.setEntity(entity);
             HttpResponse respose = httpClient.execute(post);
             String resp = EntityUtils.toString(respose.getEntity());
-            pelicula = Utilidades.convertirJSONAPelicula(resp);
+            sugerencia = Utilidades.convertirJSONASugerencia(resp);
         } catch (Exception e) {
-            Log.e("ServicioRest", "Error! insercion de película " + e.getMessage());
+            Log.e("ServicioRest", "Error! insercion de sugerencia " + e.getMessage());
             return null;
         }
-        return pelicula;
+        return sugerencia;
     }
-     */
 
-    /**
-     * Permite eliminar una pelicula del servicio
-     * @param idPelicula ID de la pelicula a eliminar
-     * @return Pelicula eliminada
-     */
-    /**
-    public static Film eliminarPeliculaDelServicio(String idPelicula) {
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpDelete delete = new HttpDelete(Utilidades.URL_SERVICIO+ "/" + idPelicula);
-        delete.setHeader("content-type", "application/json");
-        try {
-            HttpResponse response = client.execute(delete);
-            String res = EntityUtils.toString(response.getEntity());
-            return Utilidades.convertirJSONAPelicula(res);
-        } catch (Exception e) {
-            Log.e("ServicioRest", "Error! eliminando la pelicula " + e.getMessage());
-            return null;
-        }
-    }
-     */
+
 
 
 }

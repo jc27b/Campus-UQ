@@ -99,7 +99,7 @@ public class DirectoryContainerFragment extends Fragment {
                 for (int i = 1; i <= 5; i++) {
                     Bitmap imagen = null;
                     String nombre = "Dependencia "+i;
-                    /*
+
                     switch (i) {
                         case 1:
                             imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.rectoria);
@@ -122,15 +122,12 @@ public class DirectoryContainerFragment extends Fragment {
                             nombre = "Vicerrectoría de Investigaciones";
                             break;
                     }
-                    */
 
                     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
                     for (int j = 1; j <= 7; j++) {
                         Contacto contacto = new Contacto("Contacto "+j+" de la Dependencia "+i,"735930"+(i*j),"364-925-7"+i+""+j);
                         contactos.add(contacto);
                     }
-
-                    imagen = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.logo);
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     imagen.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -162,6 +159,10 @@ public class DirectoryContainerFragment extends Fragment {
         return vista;
     }
 
+    /**
+     * Método para habilitar o deshabilitar el botón de actualizar el directorio.
+     * @param enabled Se habilita o deshabilita.
+     */
     public void setImageButtonEnabled(boolean enabled) {
         imageButton.setEnabled(enabled);
     }

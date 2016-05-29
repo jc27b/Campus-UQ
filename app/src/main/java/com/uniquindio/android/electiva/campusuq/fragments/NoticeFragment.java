@@ -182,7 +182,7 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
 
         /**
          * Constructor del hilo secundario, que
-         * inicializa el contexto y la pelicula.
+         * inicializa el contexto y la noticia.
          * @param context Contexto de la aplicación.
          */
         public HiloSecundarioNoticia(Context context) {
@@ -203,8 +203,7 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
 
         /**
          * Metodo que se ejecuta en el hilo secundario,
-         * el cual permite listar las películas y
-         * tambien agregarlas.
+         * el cual permite listar las noticias.
          * @param params Operación a realizar.
          * @return Operación realizada.
          */
@@ -213,16 +212,6 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
             if (params[0] == Utilidades.LISTAR_NOTICIAS) {
                 setNoticias(CRUD.getListaDeNoticias());
             }
-            /**
-             else if (params[0] == Utilidades.AGREGAR_PELICULA){
-             String peliculaJSON = Utilidades.convertirPeliculaAJSON(pelicula);
-             pelicula = CRUD.agregarPeliculaAlServicio(peliculaJSON);
-             }
-             else if (params[0] == Utilidades.ELIMINAR_PELICULA) {
-             String idPelicula = pelicula.getId();
-             pelicula = CRUD.eliminarPeliculaDelServicio(idPelicula);
-             }
-             */
 
             return params[0];
         }
@@ -246,32 +235,6 @@ public class NoticeFragment extends Fragment implements AdaptadorDeNoticia.OnCli
                 }
 
             }
-
-            // ***
-            // Ojo para actualizar se elimina lo que hay en la base de datos
-            // ***
-
-            /**
-             else if (integer == Utilidades.AGREGAR_PELICULA) {
-             if (pelicula != null) {
-             peliculas.add(position, pelicula);
-             adaptador.notifyItemInserted(position);
-             pelicula = null;
-             }
-             else {
-             Utilidades.mostrarMensaje(Utilidades.NO_SE_AGREGO_LA_PELICULA, getContext());
-             }
-             }
-             else if (integer == Utilidades.ELIMINAR_PELICULA){
-             if (pelicula != null) {
-             peliculas.remove(position);
-             adaptador.notifyItemRemoved(position);
-             pelicula = null;
-             } else {
-             Utilidades.mostrarMensaje(Utilidades.NO_SE_ELIMINO_LA_PELICULA, getContext());
-             }
-             }
-             */
 
             progress.dismiss();
         }

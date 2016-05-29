@@ -138,6 +138,11 @@ public class AdaptadorDeDependencia extends RecyclerView.Adapter<AdaptadorDeDepe
         public void onClickPosition(int pos);
     }
 
+    /**
+     * Método utilizado para que la lista de
+     * dependencias sea actualizada en el adaptador.
+     * @param dependencias Listado de dependencias.
+     */
     public void intercambiar(ArrayList<Dependencia> dependencias){
         this.directorio.clear();
         this.directorio.addAll(dependencias);
