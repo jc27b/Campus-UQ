@@ -3,6 +3,7 @@ package com.uniquindio.android.electiva.campusuq.fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Noticia;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Fragmento que se encargará de mostrar el detalle de
@@ -32,6 +45,8 @@ public class NoticeDetailFragment extends Fragment {
     private Noticia noticia;
     private android.support.design.widget.FloatingActionButton btnCompartirFacebook;
     private android.support.design.widget.FloatingActionButton btnCompartirTwitter;
+
+    private ShareDialog shareDialog;
 
     /**
      * Constructor del fragmento que mostrará
@@ -62,7 +77,34 @@ public class NoticeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notice_detail, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_notice_detail, container, false);
+
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(Utilidades.TWITTER_KEY, Utilidades.TWITTER_SECRET);
+        Fabric.with(super.getActivity(), new TwitterCore(authConfig), new TweetComposer());
+
+        return view;
+    }
+
+    /**
+     * Método llamado cuando se crea la actividad.
+     * Se encarga de inicializar el share dialog y la sesión de twitter.
+     * @param savedInstanceState Instancia guardada para restaurar los datos.
+     */
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        shareDialog = new ShareDialog(getActivity());
+
+        TwitterSession session = Twitter.getSessionManager().getActiveSession();
+
+        if( session != null ){
+            Utilidades.mostrarMensajeConsola("Sesion iniciada por: "+session.getUserName());
+        } else {
+            Utilidades.mostrarMensajeConsola("No se inició la sesión");
+        }
+
     }
 
     /**
@@ -71,7 +113,7 @@ public class NoticeDetailFragment extends Fragment {
      * la noticia que fue seleccionada.
      * @param noticia Noticia seleccionada.
      */
-    public void mostrarNoticia (Noticia noticia) {
+    public void mostrarNoticia (final Noticia noticia) {
         this.noticia = noticia;
         imagen = (ImageView) getView().findViewById(R.id.imagen_detalle);
 
@@ -92,16 +134,35 @@ public class NoticeDetailFragment extends Fragment {
         btnCompartirFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.compartida_facebook), Toast.LENGTH_SHORT).show();
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+                        ShareLinkContent content = new ShareLinkContent.Builder()
+                                .setContentTitle(noticia.getTitulo())
+                                .setContentUrl(Uri.parse("https://www.uniquindio.edu.co/"))
+                                .setContentDescription(noticia.getDescripcion())
+                                .build();
+                        shareDialog.show(content);
+                    }
+                }
             }
         });
         btnCompartirTwitter = (android.support.design.widget.FloatingActionButton) getView().findViewById(R.id.btn_compartir_twitter);
         btnCompartirTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.compartida_twitter), Toast.LENGTH_SHORT).show();
+                try {
+                    URL url = new URL("https://www.uniquindio.edu.co/");
+                    TweetComposer.Builder builder = new
+                            TweetComposer.Builder(getContext())
+                            .text(noticia.getTitulo())
+                            .url(url);
+                    builder.show();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
+
 
 }

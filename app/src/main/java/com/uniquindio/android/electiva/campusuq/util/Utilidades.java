@@ -2,16 +2,19 @@ package com.uniquindio.android.electiva.campusuq.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
-import android.support.v4.app.FragmentManager;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.uniquindio.android.electiva.campusuq.R;
-import com.uniquindio.android.electiva.campusuq.fragments.LoginFragment;
 import com.uniquindio.android.electiva.campusuq.vo.Sugerencia;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 /**
@@ -20,6 +23,10 @@ import java.util.Locale;
  * fragmento de tipo dialogo para iniciar sesión.
  */
 public class Utilidades {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    public static final String TWITTER_KEY = "sDB3C93DfyHAnH33sMYpHp76j";
+    public static final String TWITTER_SECRET = "TD2Q2AiuxlkOmlY3SlWYihd9dyg9jmE38ktphkvcdFml0ZDGrm";
 
     public final static String MIS_PREFERENCIAS = "MisPreferencias";
     public final static String LENGUAJE_DE_PREFERENCIA = "languaje_preferences";
@@ -42,18 +49,6 @@ public class Utilidades {
     public static final String CAMPOS_TABLA_DEPENDENCIA[] = new String[]{"_ID","IMAGEN", "NOMBRE"};
     public static final String NOMBRE_TABLA_SUGERENCIA = "Sugerencia";
     public static final String CAMPOS_TABLA_SUGERENCIA[] = new String[]{"_ID", "ASUNTO", "DETALLE", "IMAGEN", "ESTADO"};
-
-
-    /**
-     * Es el encargado de mostrar el dialogo por medio del cual se va a iniciar sesión
-     * @param fragmentManager permite realizar la transacción del diálogo
-     * @param nameClass nombre de la actividad que lo invoco
-     */
-    public static void mostrarDialigoAgregarPelicula(FragmentManager fragmentManager, String nameClass) {
-        LoginFragment loginFragment = new LoginFragment();
-        loginFragment.setStyle(loginFragment.STYLE_NORMAL, R.style.MiDialogo);
-        loginFragment.show(fragmentManager, nameClass);
-    }
 
     /**
      * Metodo que permite a la aplicaciòn cambiar de idioma,
@@ -147,5 +142,25 @@ public class Utilidades {
         }
     }
 
+    /**
+     * Método para generar el key hash de la apliación de facebook.
+     * @param context Contexto de la aplicación.
+     */
+    public static void getKeyHash(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String sign = Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                Log.e("Mi clave HASH:", sign);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d("prueba", "1 KeyHash Error: " + e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            Log.d("prueba", "2 KeyHash Error: " + e.getMessage());
+        }
+
+    }
 
 }

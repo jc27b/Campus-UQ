@@ -27,12 +27,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.uniquindio.android.electiva.campusuq.R;
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryContainerFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.DirectoryFragment;
+import com.uniquindio.android.electiva.campusuq.fragments.LoginFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeDetailFragment;
 import com.uniquindio.android.electiva.campusuq.fragments.NoticeFragment;
 import com.uniquindio.android.electiva.campusuq.util.AdaptadorDeContacto;
@@ -40,6 +50,8 @@ import com.uniquindio.android.electiva.campusuq.util.AdaptadorDePagerFragment;
 import com.uniquindio.android.electiva.campusuq.util.CustomViewPager;
 import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Actividad principal que contendrá un tab layout y un view pager para
@@ -50,7 +62,7 @@ import com.uniquindio.android.electiva.campusuq.vo.Contacto;
  * los eventos, y registra un broadcast receiver para detectar cambios
  * en la conectividad a internet.
  */
-public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener, DirectoryFragment.OnDependenciaSeleccionadaListener, DirectoryDetailFragment.OnContactoSeleccionadoListener {
+public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener, DirectoryFragment.OnDependenciaSeleccionadaListener, DirectoryDetailFragment.OnContactoSeleccionadoListener, LoginFragment.OnLoginListener {
 
     private static final String POSICION_NOTICIA = "posicion_noticia";
     private static final String POSICION_DEPENDENCIA = "posicion_dependencia";
@@ -66,8 +78,12 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     private IntentFilter intentFilter;
 
     private ViewGroup actionToolBar;
-
     private CustomViewPager viewPager;
+
+    private boolean redSocial;
+    private boolean loginWithFacebook;
+    private CallbackManager callbackManager;
+    private LoginFragment loginFragment;
 
     /**
      * Método llamado cuando se crea la instancia. Se encarga de finalizar
@@ -82,9 +98,18 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
         Utilidades.obtenerLenguaje(this);
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
+        Utilidades.getKeyHash(this);
+
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(Utilidades.TWITTER_KEY, Utilidades.TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.activity_main);
 
         AnimationActivity.firstActivity.finish();
+
+        loginWithFacebook = false;
 
         if (savedInstanceState == null) {
             posicionNoticia = 0;
@@ -130,6 +155,22 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+            }
+            @Override
+            public void onCancel() {
+                // App code
+            }
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
 
     }
 
@@ -256,6 +297,19 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     }
 
     /**
+     * Método llamado cuando el usuario se
+     * logea exitosamente en una red social.
+     * Quita el fragmento de iniciar sesión.
+     */
+    @Override
+    public void onLogin(boolean loginWithFacebook) {
+        this.loginWithFacebook = loginWithFacebook;
+        if (!loginWithFacebook) {
+            onBackPressed();
+        }
+    }
+
+    /**
      * Método que sirve para buscar la barra de acción
      * de una actividad pasada por parámetro.
      * @param activity Actividad que contiene la barra de acción.
@@ -321,7 +375,16 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         int id = item.getItemId();
 
         if (id == R.id.menu_iniciar_sesion) {
-            Utilidades.mostrarDialigoAgregarPelicula(getSupportFragmentManager(), MainActivity.class.getSimpleName());
+            redSocial = true;
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.login_fragment);
+            linearLayout.setVisibility(View.GONE);
+
+            loginFragment = new LoginFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.fragment_container, loginFragment, "loginFragment");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
         if (id == R.id.menu_ir_a_pagina_universidad) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.uniquindio.edu.co/"));
@@ -352,6 +415,33 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     }
 
     /**
+     * Método que permite que se retornen bien los datos de facebook y twitter.
+     * @param requestCode Código de solicitud.
+     * @param resultCode Código de resultado.
+     * @param data Intent con los datos.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (loginWithFacebook) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+            if(resultCode == this.RESULT_OK){
+                Bundle bundle = data.getExtras();
+                String fbData = bundle.toString();
+                Utilidades.mostrarMensajeConsola("I am inside resultcode " +fbData);
+
+                onBackPressed();
+                loginWithFacebook = false;
+            } else {
+                Utilidades.mostrarMensajeConsola("I have no idea what is happening :( "+data.getExtras().toString());
+            }
+        } else {
+            loginFragment.onActivityResult(requestCode, resultCode, data);
+        }
+
+    }
+
+    /**
      * Método usado para guardar el estado de la actividad
      * cuando ésta puede ser destruida.
      * @param outState Bundle en el que se guardarán datos.
@@ -362,6 +452,20 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         outState.putInt(POSICION_NOTICIA, posicionNoticia);
         outState.putInt(POSICION_DEPENDENCIA, posicionDependencia);
         outState.putInt(ULTIMO_ITEM_SELECCIONADO, lastItemSelected);
+    }
+
+    /**
+     * Método llamado cuando se presiona el botón atrás.
+     * Recupera la vista principal.
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (redSocial) {
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.login_fragment);
+            linearLayout.setVisibility(View.VISIBLE);
+            redSocial = false;
+        }
     }
 
     /**

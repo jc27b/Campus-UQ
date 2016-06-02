@@ -22,14 +22,10 @@
     <TextView
         style="@style/MiSeparador"/>
 
-    <TextView
-        android:id="@+id/txt_login_twitter"
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitter_login_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
-        android:text="@string/compartir_twitter"
-        android:textSize="30dp"
-        android:textStyle="bold"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         style="@style/MiSeparador"/>
