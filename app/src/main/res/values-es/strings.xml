@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Campus UQ</string>
+
+    <string name="noticias">Noticias</string>
+    <string name="noticia">Noticia</string>
+    <string name="descripcion_imagen_detalle">Imagen de la noticia seleccionada</string>
+    <string name="texto_titulo_de_noticia">Título de la Noticia</string>
+    <string name="texto_id_de_noticia">ID de la Noticia</string>
+    <string name="texto_fecha_de_noticia">Fecha de la Noticia</string>
+    <string name="texto_detalle_de_noticia">Detalle de la noticia</string>
+    <string name="compartir_facebook">Facebook</string>
+    <string name="compartir_twitter">Twitter</string>
+    <string name="compartida_facebook">Se ha compartido la noticia en Facebook</string>
+    <string name="compartida_twitter">Se ha compartido la noticia en Twitter</string>
+
+    <string name="directorio">Directorio</string>
+    <string name="dependencia">Dependencia</string>
+    <string name="listado">Listado</string>
+    <string name="directorio_actualizado">Se ha actualizado el Directorio</string>
+
+    <string name="nombre_contacto">Nombre de Contacto</string>
+    <string name="telefono_contacto">Telefono de Contacto</string>
+    <string name="extension_contacto">Extensión de Contacto</string>
+
+    <string name="iniciar_sesion">Iniciar Sesión</string>
+    <string name="ir_a_pagina_universidad">Ir a Página de la Universidad</string>
+    <string name="cambiar_idioma">Cambiar Idioma</string>
+
+    <string name="sugerencias">Sugerencias</string>
+    <string name="buzon">Buzon</string>
+    <string name="datos_sugerencias">Datos de la Sugerencia</string>
+    <string name="asunto">Asunto</string>
+    <string name="detalle">Detalle</string>
+    <string name="adjuntar_imagen">Adjuntar Imagen</string>
+    <string name="enviar_sugerencia">Enviar Sugerencia</string>
+    <string name="sugerencia_enviada">Sugerencia Enviada</string>
+    <string name="sugerencias_propuestas">Sugerencias Propuestas</string>
+    <string name="asunto_sugerencia">Asunto de Sugerencia</string>
+    <string name="revisando">Revisando</string>
+    <string name="declinado">Declinado</string>
+    <string name="corregido">Corregido</string>
+
+    <string name="no_connection">No hay conexión a internet</string>
+
+</resources>

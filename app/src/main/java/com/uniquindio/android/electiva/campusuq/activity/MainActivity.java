@@ -38,6 +38,15 @@ import com.uniquindio.android.electiva.campusuq.util.AdaptadorDePagerFragment;
 import com.uniquindio.android.electiva.campusuq.util.Utilidades;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 
+/**
+ * Actividad principal que contendrá un tab layout y un view pager para
+ * proporcionar la navegabilidad por las distintas funciones de la aplicación.
+ * En el view pager se colocan fragmentos que contendrán áreas funcionales
+ * y se podrá cambiar su disposición al cambiar la orientación. La actividad
+ * tiene comunicación con los fragmentos para poder manejar adecuadamente
+ * los eventos, y registra un broadcast receiver para detectar cambios
+ * en la conectividad a internet.
+ */
 public class MainActivity extends AppCompatActivity implements NoticeFragment.OnNoticiaSeleccionadaListener, DirectoryFragment.OnDependenciaSeleccionadaListener, DirectoryDetailFragment.OnContactoSeleccionadoListener {
 
     private static final String POSICION_NOTICIA = "posicion_noticia";
@@ -55,6 +64,13 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
     private ViewGroup actionToolBar;
 
+    /**
+     * Método llamado cuando se crea la instancia. Se encarga de finalizar
+     * la activida de animación, restaurar datos, inicializar y configurar
+     * la tool bar, el tab layout, el view pager y su adaptador, y por
+     * último crea un intent para el broadcast receiver.
+     * @param savedInstanceState Instancia guardada para restaurar los datos.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        AdaptadorDePagerFragment adapter = new AdaptadorDePagerFragment(getSupportFragmentManager());
+        AdaptadorDePagerFragment adapter = new AdaptadorDePagerFragment(getSupportFragmentManager(), getBaseContext());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
@@ -112,8 +128,16 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
     }
 
+    /**
+     * Método llamado cuando se cambia de orientación el dispositivo.
+     * Quita de la pila los cambios en los fragmentos, reconfigura el
+     * view pager y le devuelve el estado anterior al asignar la
+     * página seleccionada y el elemento seleccionado.
+     * @param newConfig Nueva configuración.
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        Utilidades.obtenerLenguaje(this);
         super.onConfigurationChanged(newConfig);
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
             FragmentManager fm = getSupportFragmentManager();
@@ -123,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
             }
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new AdaptadorDePagerFragment(getSupportFragmentManager()));
+        viewPager.setAdapter(new AdaptadorDePagerFragment(getSupportFragmentManager(), getBaseContext()));
         viewPager.setCurrentItem(lastItemSelected);
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {
@@ -139,6 +163,13 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         handler.post(runnable);
     }
 
+    /**
+     * Manejador del evento selección de una noticia,
+     * el cual guarda la posición, y dependiendo de
+     * la orientación cambia la vista para mostrar
+     * la información de la noticia seleccionada.
+     * @param position Posición del ítem.
+     */
     @Override
     public void onNoticiaSeleccionada(int position) {
         posicionNoticia = position;
@@ -162,6 +193,13 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
     }
 
+    /**
+     * Manejador del evento selección de una dependencia,
+     * el cual guarda la posición, y dependiendo de
+     * la orientación cambia la vista para mostrar
+     * la información de la dependencia seleccionada.
+     * @param position Posición del ítem.
+     */
     @Override
     public void onDependenciaSeleccionada(final int position) {
         posicionDependencia = position;
@@ -189,6 +227,13 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
 
     }
 
+    /**
+     * Manejador del evento selección de un contacto,
+     * el cual inicia una llamada al teléfono y
+     * extensión del respectivo contacto, y pide
+     * permiso para hacerlo directamente.
+     * @param position Posición del ítem.
+     */
     @Override
     public void onContactoSeleccionado(int position) {
         DirectoryDetailFragment directoryDetailFragment = (DirectoryDetailFragment) getSupportFragmentManager().findFragmentByTag("directoryDetailFragment");
@@ -205,6 +250,12 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         }
     }
 
+    /**
+     * Método que sirve para buscar la barra de acción
+     * de una actividad pasada por parámetro.
+     * @param activity Actividad que contiene la barra de acción.
+     * @return
+     */
     public static ViewGroup findActionBar(Activity activity) {
         int id = activity.getResources().getIdentifier("action_bar", "id", "android");
         ViewGroup actionBar = null;
@@ -217,6 +268,13 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         return actionBar;
     }
 
+    /**
+     * Método que busca una tool bar en un grupo de vistas
+     * pasado por parámetro, de acuerdo a las librerías
+     * que esté usando la aplicación.
+     * @param viewGroup Grupo de vistas que contiene la tool bar.
+     * @return Grupo de vistas correspondiente a la tool bar.
+     */
     private static ViewGroup findToolbar(ViewGroup viewGroup) {
         ViewGroup toolbar = null;
         for (int i = 0, len = viewGroup.getChildCount(); i < len; i++) {
@@ -234,12 +292,25 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         return toolbar;
     }
 
+    /**
+     * Método que se encarga de incluir un
+     * archivo de menú en el menú que usa
+     * la aplicación en la tool bar.
+     * @param menu Menú de la aplicación.
+     * @return Éxito de la operación.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.opciones, menu);
         return true;
     }
 
+    /**
+     * Método que se encarga de definir la funcionalidad
+     * a ejecutar cuando se presiona un ítem del menú.
+     * @param item Ítem presionado.
+     * @return Hay cambios en el comportamiento o no.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -262,6 +333,12 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Método utilizado para comprobar si hay
+     * conexión a internet o no.
+     * @param context Contexto de la aplicación.
+     * @return Hay conexión o no.
+     */
     public boolean haveNetworkConnection(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -269,6 +346,11 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         return isConnected;
     }
 
+    /**
+     * Método usado para guardar el estado de la actividad
+     * cuando ésta puede ser destruida.
+     * @param outState Bundle en el que se guardarán datos.
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -277,6 +359,12 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         outState.putInt(ULTIMO_ITEM_SELECCIONADO, lastItemSelected);
     }
 
+    /**
+     * Método llamado cuando se le devuelve el foco
+     * a la actividad, se encarga de registrar el
+     * broadcast receiver para detectar cambios
+     * en la conectividad.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -309,8 +397,11 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         registerReceiver(connectivityReceiver, intentFilter);
     }
 
-
-
+    /**
+     * Método llamado cuando la actividad pierde
+     * el foco, quita el registro del broadcast
+     * receiver pues no se podrá usar.
+     */
     @Override
     protected void onPause() {
         if (connectivityReceiver != null) {
@@ -320,6 +411,11 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
         super.onPause();
     }
 
+    /**
+     * Método llamado cuando la actividad será
+     * destruida, quita el registro del broadcast
+     * receiver pues no se podrá usar.
+     */
     @Override
     protected void onDestroy() {
         if (connectivityReceiver != null) {

@@ -10,10 +10,23 @@ import android.widget.ImageView;
 
 import com.uniquindio.android.electiva.campusuq.R;
 
+/**
+ * Actividad utilizada para mostrar una animación
+ * con el logo de la universidad del quindío, luego
+ * llama a la actividad principal.
+ */
 public class AnimationActivity extends AppCompatActivity {
 
     public static Activity firstActivity;
 
+    /**
+     * Método llamado cuando se crea la actividad, se encarga
+     * de asignar la visa a la actividad, guardarse en un
+     * atributo estático, crear la animación y configurar
+     * el comportamiento para llamar a la actividad principal
+     * cuando se termine la animación.
+     * @param savedInstanceState Instancia guardada para restaurar los datos.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

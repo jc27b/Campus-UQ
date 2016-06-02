@@ -10,6 +10,11 @@ import com.uniquindio.android.electiva.campusuq.fragments.LoginFragment;
 
 import java.util.Locale;
 
+/**
+ * Clase de utilidades que sirve para cambiar el lenguaje
+ * con el que se mostrará la aplicación y mostrar un
+ * fragmento de tipo dialogo para iniciar sesión.
+ */
 public class Utilidades {
 
     public final static String MIS_PREFERENCIAS = "MisPreferencias";
@@ -18,12 +23,9 @@ public class Utilidades {
     public final static String LENGUAJE_EN = "en";
 
     /**
-     * es el encargado de mostrar el dialogo por medio del cual se van
-     a agregar películas
-     *
-     * @param fragmentManager permite realizar la transacción del
-    dialogo
-     * @param nameClass       nombre de la actividad que lo invoco
+     * Es el encargado de mostrar el dialogo por medio del cual se va a iniciar sesión
+     * @param fragmentManager permite realizar la transacción del diálogo
+     * @param nameClass nombre de la actividad que lo invoco
      */
     public static void mostrarDialigoAgregarPelicula(FragmentManager fragmentManager, String nameClass) {
         LoginFragment loginFragment = new LoginFragment();
@@ -31,6 +33,13 @@ public class Utilidades {
         loginFragment.show(fragmentManager, nameClass);
     }
 
+    /**
+     * Metodo que permite a la aplicaciòn cambiar de idioma,
+     * para ello utiliza las preferencias compartidas accedidas
+     * en modo privado, las edita y hace uso del metodo
+     * obtener lenguaje.
+     * @param context El contexto del fragmento lista de peliculas
+     */
     public static void cambiarIdioma(Context context){
 
         SharedPreferences prefs = context.getSharedPreferences(MIS_PREFERENCIAS, context.MODE_PRIVATE);
@@ -51,6 +60,12 @@ public class Utilidades {
 
     }
 
+    /**
+     * Metodo que permite que la aplicacion se configuere con
+     * el idioma que tenga el dispositivo donde este siendo usado,
+     * para esto hace uso del locale.
+     * @param context Contexto del fragmento lista peliculas
+     */
     public static void obtenerLenguaje(Context context){
 
         SharedPreferences prefs = context.getSharedPreferences(MIS_PREFERENCIAS,context.MODE_PRIVATE);

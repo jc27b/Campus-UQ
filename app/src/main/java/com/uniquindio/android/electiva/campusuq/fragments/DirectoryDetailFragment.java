@@ -19,7 +19,9 @@ import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento que se encargará de mostrar de una lista de
+ * contactos de una dependencia cuando esta es seleccionada
+ * en otro fragmento.
  */
 public class DirectoryDetailFragment extends Fragment implements AdaptadorDeContacto.OnClickAdaptadorDeContacto {
 
@@ -28,15 +30,32 @@ public class DirectoryDetailFragment extends Fragment implements AdaptadorDeCont
     private AdaptadorDeContacto adaptador;
     private OnContactoSeleccionadoListener listener;
 
+    /**
+     * Constructor del fragmento que mostrará
+     * la lista de contactos.
+     */
     public DirectoryDetailFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Método llamado cuando se crea el fragmento.
+     * Llama al mismo de la superclase.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Metodo que se encarga de crear la vista que utilizara
+     * el fragmento, por medio del metodo inflate.
+     * @param inflater Encargado de poner la vista en el fragmento.
+     * @param container Jerarquia de vistas de la actividad.
+     * @param savedInstanceState Instancia guardada para restaurar datos.
+     * @return Vista creada para el fragmento.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -57,10 +76,21 @@ public class DirectoryDetailFragment extends Fragment implements AdaptadorDeCont
 
     }
 
+    /**
+     * Método para obtener el adaptador de la lista de contactos.
+     * @return Adaptador de la lista de contactos.
+     */
     public AdaptadorDeContacto getAdaptador() {
         return adaptador;
     }
 
+    /**
+     * Metodo llamado cuando se va a agregar el fragmento dentro
+     * de la actividad, es utilizado en este caso para confirmar que
+     * la actividad implemente una interfaz para pasar datos
+     * a otro fragmento.
+     * @param context Actividad del fragmento.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -79,19 +109,38 @@ public class DirectoryDetailFragment extends Fragment implements AdaptadorDeCont
 
     }
 
+    /**
+     * Método que será llamado cuando se presiona un item
+     * de la lista de contactos, el cual notificará a la
+     * actividad esta acción y ésta tomará las medidas
+     * correspondientes.
+     * @param pos Posición en la lista de contactos.
+     */
     @Override
     public void onClickPosition(int pos) {
         listener.onContactoSeleccionado(pos);
     }
 
+    /**
+     * Interfaz que sera implementada por la actividad para
+     * compartir datos con otro fragmento.
+     */
     public interface OnContactoSeleccionadoListener {
         void onContactoSeleccionado(int position);
     }
 
+    /**
+     * Método para asignar una lista de contactos.
+     * @param dependencia Lista de contactos.
+     */
     public void setDependencia(ArrayList<Contacto> dependencia) {
         this.dependencia = dependencia;
     }
 
+    /**
+     * Método para obtener la lista de contactos.
+     * @return Lista de contactos.
+     */
     public ArrayList<Contacto> getDependencia() {
         return dependencia;
     }
