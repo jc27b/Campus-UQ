@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/degradado"
-    android:padding="25dp"
+    android:padding="@dimen/margin_25"
     android:orientation="vertical"
     tools:context="com.uniquindio.android.electiva.campusuq.fragments.LoginFragment">
 
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/editbox_background"
         android:text="@string/compartir_facebook"
-        android:textSize="30dp"
+        android:textSize="@dimen/text_30"
         android:textStyle="bold"/>
 
     <TextView

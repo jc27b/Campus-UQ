@@ -1,6 +1,8 @@
 package com.uniquindio.android.electiva.campusuq.fragments;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -47,6 +49,7 @@ public class NoticeDetailFragment extends Fragment {
     private android.support.design.widget.FloatingActionButton btnCompartirTwitter;
 
     private ShareDialog shareDialog;
+    private LoginFragment.OnLoginListener listener;
 
     /**
      * Constructor del fragmento que mostrará
@@ -134,6 +137,7 @@ public class NoticeDetailFragment extends Fragment {
         btnCompartirFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listener.onLogin(true);
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     if (ShareDialog.canShow(ShareLinkContent.class)) {
                         ShareLinkContent content = new ShareLinkContent.Builder()
@@ -164,5 +168,29 @@ public class NoticeDetailFragment extends Fragment {
         });
     }
 
+    /**
+     * Metodo llamado cuando se va a agregar el fragmento dentro
+     * de la actividad, es utilizado en este caso para confirmar que
+     * la actividad implemente una interfaz para pasar datos
+     * a otro fragmento.
+     * @param context Actividad del fragmento.
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Activity activity;
+
+        if (context instanceof Activity){
+            activity = (Activity) context;
+
+            try {
+                listener = (LoginFragment.OnLoginListener) activity;
+            } catch (ClassCastException e) {
+                throw new ClassCastException(activity.toString() + " debe implementar la interfaz OnLoginListener");
+            }
+        }
+
+    }
 
 }

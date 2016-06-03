@@ -5,4 +5,28 @@
     <dimen name="activity_horizontal_margin">64dp</dimen>
     <dimen name="activity_vertical_margin">64dp</dimen>
     <dimen name="detalle_texto_descripción">80dp</dimen>
+
+    <dimen name="margin_10">40dp</dimen>
+    <dimen name="margin_20">80dp</dimen>
+    <dimen name="margin_30">120dp</dimen>
+    <dimen name="margin_50">200dp</dimen>
+    <dimen name="margin_60">240dp</dimen>
+    <dimen name="margin_15">60dp</dimen>
+    <dimen name="margin_25">100dp</dimen>
+
+    <dimen name="text_10">40dp</dimen>
+    <dimen name="text_20">80dp</dimen>
+    <dimen name="text_25">100dp</dimen>
+    <dimen name="text_30">120dp</dimen>
+
+    <dimen name="tam_0">0dp</dimen>
+    <dimen name="tam_10">40dp</dimen>
+    <dimen name="tam_20">80dp</dimen>
+    <dimen name="tam_30">120dp</dimen>
+    <dimen name="tam_40">160dp</dimen>
+    <dimen name="tam_50">200dp</dimen>
+    <dimen name="tam_60">240dp</dimen>
+    <dimen name="tam_90">360dp</dimen>
+    <dimen name="tam_100">400dp</dimen>
+    <dimen name="tam_125">500dp</dimen>
 </resources>

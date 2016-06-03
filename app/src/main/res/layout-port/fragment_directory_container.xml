@@ -8,20 +8,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="@dimen/tam_60">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/listado"
-            android:textSize="30dp"
+            android:textSize="@dimen/text_30"
             android:textStyle="bold"
-            android:padding="10dp"
+            android:padding="@dimen/margin_10"
             android:background="@color/white"/>
 
         <ImageButton
             android:id="@+id/btn_update"
-            android:layout_width="40dp"
+            android:layout_width="@dimen/tam_40"
             android:layout_height="match_parent"
             android:src="@drawable/update"
             android:scaleType="centerInside"

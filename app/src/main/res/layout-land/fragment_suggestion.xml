@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="15dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingBottom="15dp"
+    android:paddingTop="@dimen/margin_15"
+    android:paddingLeft="@dimen/margin_15"
+    android:paddingRight="@dimen/margin_15"
+    android:paddingBottom="@dimen/margin_15"
     tools:context="com.uniquindio.android.electiva.campusuq.fragments.SuggestionFragment">
 
     <ScrollView
@@ -22,28 +22,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/datos_sugerencias"
-                android:textSize="30dp"
+                android:textSize="@dimen/text_30"
                 android:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="@dimen/margin_20">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/asunto"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_25"
                     android:textStyle="bold"
                     android:layout_weight="1"/>
 
                 <EditText
                     android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_height="@dimen/tam_40"
                     android:id="@+id/edit_text_asunto"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_25"
                     android:background="@android:drawable/editbox_background_normal"
                     android:layout_weight="10"/>
 
@@ -53,24 +53,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="@dimen/margin_20">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/detalle"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_25"
                     android:textStyle="bold"
                     android:layout_weight="1"/>
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="125dp"
+                    android:layout_height="@dimen/tam_125"
                     android:id="@+id/edit_text_detalle"
-                    android:textSize="25dp"
+                    android:textSize="@dimen/text_25"
                     android:inputType="textMultiLine"
                     android:background="@android:drawable/editbox_background_normal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/margin_20"
                     android:layout_weight="10"/>
 
             </LinearLayout>
@@ -79,11 +79,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="@dimen/margin_20">
 
                 <ImageView
                     android:id="@+id/imagen_sugerencia"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/tam_0"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
                     android:layout_weight="0.6"
@@ -91,19 +91,19 @@
 
                 <Button
                     android:id="@+id/btn_pick"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/tam_0"
                     android:layout_height="wrap_content"
                     android:text="@string/adjuntar_imagen"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="@dimen/margin_20"
                     android:layout_gravity="center"
                     android:layout_weight="0.3"/>
 
                 <Button
                     android:id="@+id/btn_send"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/tam_0"
                     android:layout_height="wrap_content"
                     android:text="@string/enviar_sugerencia"
-                    android:layout_marginLeft="60dp"
+                    android:layout_marginLeft="@dimen/margin_60"
                     android:layout_gravity="center"
                     android:layout_weight="0.3"/>
 

@@ -64,6 +64,8 @@ public class MailboxFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        sugerencias = new ArrayList<Sugerencia>();
     }
 
     /**
@@ -172,7 +174,7 @@ public class MailboxFragment extends Fragment {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            if (integer == Utilidades.LISTAR_SUGERENCIAS) {
+            if (integer == Utilidades.LISTAR_SUGERENCIAS && sugerencias != null) {
 
                 GridLayout gridLayout = (GridLayout) getView().findViewById(R.id.grid_layout);
 

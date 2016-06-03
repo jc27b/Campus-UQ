@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.uniquindio.android.electiva.campusuq.R;
+import com.uniquindio.android.electiva.campusuq.activity.MainActivity;
 import com.uniquindio.android.electiva.campusuq.vo.Contacto;
 import com.uniquindio.android.electiva.campusuq.vo.Dependencia;
 
@@ -89,8 +90,10 @@ public class DirectoryContainerFragment extends Fragment {
                 imageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        directoryFragment.actualizarDirectorio();
-                        Toast.makeText(getContext(), getResources().getString(R.string.directorio_actualizado), Toast.LENGTH_SHORT).show();
+                        if (MainActivity.haveNetworkConnection(getContext())) {
+                            directoryFragment.actualizarDirectorio();
+                            Toast.makeText(getContext(), getResources().getString(R.string.directorio_actualizado), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

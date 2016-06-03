@@ -3,4 +3,28 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="detalle_texto_descripción">20dp</dimen>
+
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
+    <dimen name="margin_50">50dp</dimen>
+    <dimen name="margin_60">60dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_25">25dp</dimen>
+
+    <dimen name="text_10">10dp</dimen>
+    <dimen name="text_20">20dp</dimen>
+    <dimen name="text_25">25dp</dimen>
+    <dimen name="text_30">30dp</dimen>
+
+    <dimen name="tam_0">0dp</dimen>
+    <dimen name="tam_10">10dp</dimen>
+    <dimen name="tam_20">20dp</dimen>
+    <dimen name="tam_30">30dp</dimen>
+    <dimen name="tam_40">40dp</dimen>
+    <dimen name="tam_50">50dp</dimen>
+    <dimen name="tam_60">60dp</dimen>
+    <dimen name="tam_90">90dp</dimen>
+    <dimen name="tam_100">100dp</dimen>
+    <dimen name="tam_125">125dp</dimen>
 </resources>

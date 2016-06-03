@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_iniciar_sesion) {
+        if (id == R.id.menu_iniciar_sesion && haveNetworkConnection(this)) {
             redSocial = true;
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.login_fragment);
             linearLayout.setVisibility(View.GONE);
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
-        if (id == R.id.menu_ir_a_pagina_universidad) {
+        if (id == R.id.menu_ir_a_pagina_universidad && haveNetworkConnection(this)) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.uniquindio.edu.co/"));
             startActivity(intent);
         }
@@ -434,6 +434,8 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
                 loginWithFacebook = false;
             } else {
                 Utilidades.mostrarMensajeConsola("I have no idea what is happening :( "+data.getExtras().toString());
+
+                loginWithFacebook = false;
             }
         } else {
             loginFragment.onActivityResult(requestCode, resultCode, data);
@@ -483,19 +485,29 @@ public class MainActivity extends AppCompatActivity implements NoticeFragment.On
                 Log.d("ConnectivityReceiver", "action -> " + intent.getAction());
                 Log.d("HaveNetworkConnection", ""+haveNetworkConnection(context));
                 TextView textView = (TextView) findViewById(R.id.text_no_connection);
-                CustomViewPager viewPager = (CustomViewPager) findViewById(R.id.viewpager);
+                TabLayout tabLayout = (TabLayout) actionToolBar.findViewById(R.id.tab_layout);
                 if (!haveNetworkConnection(context)) {
                     textView.setVisibility(View.VISIBLE);
                     viewPager.setPagingEnabled(false);
                     viewPager.setCurrentItem(1);
+                    LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
+                    tabStrip.getChildAt(0).setClickable(false);
+                    tabStrip.getChildAt(2).setClickable(false);
                     DirectoryContainerFragment page = (DirectoryContainerFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + viewPager.getCurrentItem());
-                    page.setImageButtonEnabled(false);
+                    if (page != null) {
+                        page.setImageButtonEnabled(false);
+                    }
                 } else {
                     textView.setVisibility(View.GONE);
                     viewPager.setPagingEnabled(true);
                     viewPager.setCurrentItem(1);
+                    LinearLayout tabStrip = ((LinearLayout) tabLayout.getChildAt(0));
+                    tabStrip.getChildAt(0).setClickable(true);
+                    tabStrip.getChildAt(2).setClickable(true);
                     DirectoryContainerFragment page = (DirectoryContainerFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + viewPager.getCurrentItem());
-                    page.setImageButtonEnabled(true);
+                    if (page != null) {
+                        page.setImageButtonEnabled(true);
+                    }
                 }
 
             }

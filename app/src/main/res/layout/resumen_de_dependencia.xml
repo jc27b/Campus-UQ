@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="@dimen/margin_15">
 
         <ImageView
             android:id="@+id/imagen_dependencia"
@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:maxHeight="10dp"
-            android:layout_marginRight="16dp" />
+            android:maxHeight="@dimen/tam_10"
+            android:layout_marginRight="@dimen/margin_15" />
 
         <TextView
             android:id="@+id/nombre"
@@ -32,7 +32,7 @@
             android:layout_below="@id/imagen_dependencia"
             android:layout_alignParentLeft="true"
             android:text="@string/dependencia"
-            android:textSize="30sp" />
+            android:textSize="@dimen/text_30" />
 
     </RelativeLayout>
 
