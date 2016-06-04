@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp"
+    android:layout_margin="5dp"
+    card_view:cardBackgroundColor="#00ffffff"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="5dp"
+    android:id="@+id/resumen_noticia">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_15">
+
+        <ImageView
+            android:id="@+id/imagen_noticia"
+            android:src="@drawable/noticias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:maxHeight="@dimen/tam_10"
+            android:layout_marginRight="@dimen/margin_15" />
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imagen_noticia"
+            android:layout_alignParentLeft="true"
+            android:text="@string/noticia"
+            android:textSize="@dimen/text_30" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

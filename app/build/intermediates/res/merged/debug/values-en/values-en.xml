@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjuntar_imagen">Attach Image</string>
+    <string name="app_name">Campus UQ</string>
+    <string name="asunto">Matter</string>
+    <string name="asunto_sugerencia">Suggestion Matter</string>
+    <string name="buzon">Mailbox</string>
+    <string name="cambiar_idioma">Change Language</string>
+    <string name="cargando_directorio">Loading Directory</string>
+    <string name="cargando_noticias">Loading News</string>
+    <string name="cargando_sugerencias">Loading Suggestions</string>
+    <string name="compartida_facebook">The news has been shared on Facebook</string>
+    <string name="compartida_twitter">The news has been shared on Twitter</string>
+    <string name="compartir_facebook">Facebook</string>
+    <string name="compartir_twitter">Twitter</string>
+    <string name="corregido">Corrected</string>
+    <string name="datos_sugerencias">Suggestion Data</string>
+    <string name="declinado">Declined</string>
+    <string name="dependencia">Dependency</string>
+    <string name="descripcion_imagen_detalle">Image of the selected news</string>
+    <string name="detalle">Detail</string>
+    <string name="directorio">Directory</string>
+    <string name="directorio_actualizado">The Directory has been updated</string>
+    <string name="enviar_sugerencia">Send Suggestion</string>
+    <string name="espere">Please wait</string>
+    <string name="extension_contacto">Contact Extension</string>
+    <string name="iniciar_sesion">Login</string>
+    <string name="ir_a_pagina_universidad">Go to Univertisty Page</string>
+    <string name="listado">List</string>
+    <string name="no_connection">There\'s no internet connection</string>
+    <string name="nombre_contacto">Contact Name</string>
+    <string name="noticia">News Item</string>
+    <string name="noticias">News</string>
+    <string name="revisando">Reviewing</string>
+    <string name="sugerencia_enviada">Suggestion Sent</string>
+    <string name="sugerencias">Suggestions</string>
+    <string name="sugerencias_propuestas">Suggestions Proposed</string>
+    <string name="telefono_contacto">Contact Phone</string>
+    <string name="texto_detalle_de_noticia">Notice detail</string>
+    <string name="texto_fecha_de_noticia">Notice Date</string>
+    <string name="texto_id_de_noticia">Notice ID</string>
+    <string name="texto_titulo_de_noticia">Notice Yitle</string>
+</resources>

@@ -1,0 +1,442 @@
+[
+    {
+        "outputFile": "C:\\AndroidStudioProjects\\CampusUQ\\app\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 113,
+                    "endColumn": 55,
+                    "endOffset": 164
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 169,
+                    "endColumn": 56,
+                    "endOffset": 221
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 226,
+                    "endColumn": 40,
+                    "endOffset": 262
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 471,
+                        "endColumn": 40,
+                        "endOffset": 507
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 267,
+                    "endColumn": 40,
+                    "endOffset": 303
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 684,
+                        "endColumn": 40,
+                        "endOffset": 720
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 308,
+                    "endColumn": 40,
+                    "endOffset": 344
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 513,
+                        "endColumn": 40,
+                        "endOffset": 549
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 349,
+                    "endColumn": 41,
+                    "endOffset": 386
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 726,
+                        "endColumn": 41,
+                        "endOffset": 763
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 391,
+                    "endColumn": 41,
+                    "endOffset": 428
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 555,
+                        "endColumn": 41,
+                        "endOffset": 592
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 433,
+                    "endColumn": 41,
+                    "endOffset": 470
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 598,
+                        "endColumn": 41,
+                        "endOffset": 635
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 475,
+                    "endColumn": 41,
+                    "endOffset": 512
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 641,
+                        "endColumn": 41,
+                        "endOffset": 678
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 517,
+                    "endColumn": 35,
+                    "endOffset": 548
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 935,
+                        "endColumn": 35,
+                        "endOffset": 966
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 553,
+                    "endColumn": 37,
+                    "endOffset": 586
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 972,
+                        "endColumn": 37,
+                        "endOffset": 1005
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 591,
+                    "endColumn": 39,
+                    "endOffset": 626
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1250,
+                        "endColumn": 39,
+                        "endOffset": 1285
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 631,
+                    "endColumn": 39,
+                    "endOffset": 666
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1291,
+                        "endColumn": 39,
+                        "endOffset": 1326
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 671,
+                    "endColumn": 37,
+                    "endOffset": 704
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1011,
+                        "endColumn": 37,
+                        "endOffset": 1044
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 709,
+                    "endColumn": 38,
+                    "endOffset": 743
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1050,
+                        "endColumn": 38,
+                        "endOffset": 1084
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 748,
+                    "endColumn": 38,
+                    "endOffset": 782
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 1090,
+                        "endColumn": 38,
+                        "endOffset": 1124
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 787,
+                    "endColumn": 38,
+                    "endOffset": 821
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1130,
+                        "endColumn": 38,
+                        "endOffset": 1164
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 826,
+                    "endColumn": 38,
+                    "endOffset": 860
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 1170,
+                        "endColumn": 38,
+                        "endOffset": 1204
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 865,
+                    "endColumn": 38,
+                    "endOffset": 899
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 1210,
+                        "endColumn": 38,
+                        "endOffset": 1244
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 904,
+                    "endColumn": 38,
+                    "endOffset": 938
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 771,
+                        "endColumn": 38,
+                        "endOffset": 805
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 943,
+                    "endColumn": 38,
+                    "endOffset": 977
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 811,
+                        "endColumn": 38,
+                        "endOffset": 845
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 982,
+                    "endColumn": 39,
+                    "endOffset": 1017
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 851,
+                        "endColumn": 39,
+                        "endOffset": 886
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 1022,
+                    "endColumn": 39,
+                    "endOffset": 1057
+                },
+                "from": {
+                    "file": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 892,
+                        "endColumn": 39,
+                        "endOffset": 927
+                    }
+                }
+            }
+        ]
+    }
+]

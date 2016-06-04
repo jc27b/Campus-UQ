@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\AndroidStudioProjects\\CampusUQ\\app\\build\\intermediates\\res\\merged\\debug\\layout-port\\fragment_suggestion.xml",
+        "source": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\layout-port\\fragment_suggestion.xml"
+    },
+    {
+        "merged": "C:\\AndroidStudioProjects\\CampusUQ\\app\\build\\intermediates\\res\\merged\\debug\\layout-port\\fragment_directory_container.xml",
+        "source": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\layout-port\\fragment_directory_container.xml"
+    },
+    {
+        "merged": "C:\\AndroidStudioProjects\\CampusUQ\\app\\build\\intermediates\\res\\merged\\debug\\layout-port\\fragment_notice_container.xml",
+        "source": "C:\\AndroidStudioProjects\\CampusUQ\\app\\src\\main\\res\\layout-port\\fragment_notice_container.xml"
+    }
+]
